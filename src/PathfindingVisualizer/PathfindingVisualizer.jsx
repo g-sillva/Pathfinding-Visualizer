@@ -32,7 +32,7 @@ const PathfindingVisualizer = () => {
     const handleMouseEnter = (grid, row, col) => {
         if (mouseIsPressed) {
             const newGrid = grid.slice();
-            newGrid[row][col].isWall = true;
+            grid[row][col].isWall = true;
             setGrid(newGrid)
         }
     }

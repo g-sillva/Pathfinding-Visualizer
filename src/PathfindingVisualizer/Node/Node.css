@@ -1,7 +1,7 @@
 .node {
     width: 30px;
     height: 30px;
-    outline: 1px solid rgb(231, 231, 231);
+    outline: 1px solid #f3f2f2;
     cursor: pointer;
 }
 
@@ -14,13 +14,62 @@
 }
 
 .node-visited {
-    background: rgb(0, 0, 255);
+    animation: 1s node-visiting-show ease-in-out forwards;
 }
 
 .node-shortest-path {
-    background: rgb(255, 255, 22);
+    animation: 1s node-shortest-show ease-in-out forwards;
 }
 
 .node-wall {
-    background: rgb(0, 0, 0);
+    animation: .5s node-wall-show ease-in-out forwards;
+}
+
+@keyframes node-visiting-show {
+    0% {
+        transform: scale(0.6);
+        background-color: #344a86;
+       }
+    
+      75% {
+        transform: scale(1.2);
+        background-color: #03DAC5;
+      }
+    
+      100% {
+        transform: scale(1);
+        background-color: #4fccb9;
+      }
+}
+
+@keyframes node-shortest-show {
+    0% {
+        transform: scale(1);
+        background: #ffff16;
+    }
+
+    75% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+        background: #ffff16;
+    }
+}
+
+@keyframes node-wall-show {
+    0% {
+        transform: scale(.6);
+        background: #333333;
+    }
+
+    75% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+        background: #333333;
+    }
 }
