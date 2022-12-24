@@ -2,4 +2,25 @@
     width: 30px;
     height: 30px;
     outline: 1px solid rgb(231, 231, 231);
+    cursor: pointer;
+}
+
+.node-start {
+    background: rgb(54, 255, 54);
+}
+
+.node-finish {
+    background: rgb(255, 47, 47);
+}
+
+.node-visited {
+    background: rgb(0, 0, 255);
+}
+
+.node-shortest-path {
+    background: rgb(255, 255, 22);
+}
+
+.node-wall {
+    background: rgb(0, 0, 0);
 }
