@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import './Header.css';
 
-const Header = ({ onMainButtonClick, resetGrid }) => {
+const Header = ({ onMainButtonClick, resetGrid, onSelectInsert }) => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [mainButtonClicked, setMainButtonClicked] = useState(false);
 
@@ -32,7 +32,7 @@ const Header = ({ onMainButtonClick, resetGrid }) => {
 
   const algoDropDownOptions = ['DIJKSTRA', 'TESTE 1', 'TESTE 2', 'TESTE 3'];
   const patternDropDownOptions = ['NONE', 'MAZE'];
-  const insertDropDownOptions = ['WALL'];
+  const insertDropDownOptions = ['WALL', 'START', 'FINISH'];
   const clearDropDownOptions = ['ALL'];
 
   const handleMainButtonClick = () => {
@@ -164,7 +164,10 @@ const Header = ({ onMainButtonClick, resetGrid }) => {
                   <div 
                   className='header-dropdown-item'
                   key={valIdx}
-                  onClick={(e) => setInsertDropDown({...insertDropDown, selected: val, isDropDownOpen: false})}
+                  onClick={(e) => {
+                    setInsertDropDown({...insertDropDown, selected: val, isDropDownOpen: false});
+                    onSelectInsert(val);
+                  }}
                   >{val}</div>
                 ))}
               </div>

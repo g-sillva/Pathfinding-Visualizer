@@ -7,38 +7,59 @@ import Header from './../Components/Header/Header';
 import './PathfindingVisualizer.css';
 import { visualizeDijkastra } from './Algorithms/dijkstra';
 
-var START_NODE_ROW = 10;
-var START_NODE_COL = 15;
-var FINISH_NODE_ROW = 20;
-var FINISH_NODE_COL = 20;
-
 const PathfindingVisualizer = () => {
     const [grid, setGrid] = useState([]);
     const [visualizationStarted, setVisualizationStarted] = useState(false);
     const [mouseIsPressed, setMouseIsPressed] = useState(false);
+
+    const [startNodePos, setStartNodePos] = useState({row: 10, col: 20});
+    const [finishNodePos, setFinishNodePos] = useState({row: 10, col: 50});
+    
+    const [insertType, setInsertType] = useState('WALL');
     
     useEffect(() => {
-        setGrid(getInitialGrid())
+        const newGrid = getInitialGrid();
+
+        newGrid[startNodePos.row][startNodePos.col].isStart  = true;
+        newGrid[finishNodePos.row][finishNodePos.col].isFinish  = true;
+        setGrid(newGrid);
+
+        document.addEventListener('mouseup', () => setMouseIsPressed(false))
     }, []);
 
     const handleMouseDown = (grid, row, col) => {
         if (visualizationStarted) return;
-
         const newGrid = grid.slice();
-        let node = newGrid[row][col];
 
+        let node = newGrid[row][col];
         if (node.isStart || node.isFinish) return;
 
-        node.isWall = !node.isWall;
+        if (insertType === 'WALL') {
+            node.isWall = !node.isWall;
+            setMouseIsPressed(true);
+        } else if (insertType === 'START') {
+            node.isWall = false;
+            node.isStart = true;
+            newGrid[startNodePos.row][startNodePos.col].isStart = false;
+            setStartNodePos({row, col});
+        } else if (insertType === 'FINISH') {
+            node.isWall = false;
+            node.isFinish = true;
+            newGrid[finishNodePos.row][finishNodePos.col].isFinish = false;
+            setFinishNodePos({row, col});
+        }
+
         setGrid(newGrid)
-        setMouseIsPressed(true);
     }
 
     const handleMouseEnter = (grid, row, col) => {
         if (visualizationStarted) return;
-        if (mouseIsPressed) {
+        if (mouseIsPressed && insertType === 'WALL') {
             const newGrid = grid.slice();
-            newGrid[row][col].isWall = !newGrid[row][col].isWall;
+            let node = newGrid[row][col];
+
+            if (node.isStart || node.isFinish) return;
+            node.isWall = !node.isWall;
             setGrid(newGrid)
         }
     }
@@ -50,22 +71,50 @@ const PathfindingVisualizer = () => {
     const handleVisualizationStart = (algorithm) => {
         setVisualizationStarted(true);
         if (algorithm === 'DIJKSTRA') {
-            visualizeDijkastra(grid, START_NODE_ROW, START_NODE_COL, FINISH_NODE_ROW, FINISH_NODE_COL);
+            visualizeDijkastra(grid, startNodePos.row, startNodePos.col, finishNodePos.row, finishNodePos.col);
         }
     }
 
     const handleResetGrid = (grid) => {
         setVisualizationStarted(false);
-        const testGrid = document.getElementsByClassName("grid")[0].childNodes;
+        const domGrid = document.getElementsByClassName("grid")[0].childNodes;
 
         for (let row = 0; row < grid.length; row++) {
             for (let col = 0; col < grid[row].length; col++) {
-                let domNode = testGrid[row].childNodes[col];
+                let domNode = domGrid[row].childNodes[col];
                 domNode.classList.remove('node-visited');
                 domNode.classList.remove('node-shortest-path');
             }
         }
         setGrid(getInitialGrid())
+    }
+
+    const getInitialGrid = () => {
+        let numRows = Math.floor((window.innerHeight - 200) / 25);
+        let numCols = Math.floor(window.innerWidth / 25);
+        const grid = []
+    
+        for (let row = 0; row < numRows; row++) {
+            const currentRow = [];
+            for (let col = 0; col < numCols; col++) {
+                currentRow.push(createNode(row, col));
+            }
+            grid.push(currentRow);
+        }
+        return grid;
+    }
+
+    const createNode = (row, col) => {
+        return {
+            row,
+            col,
+            isStart: row === startNodePos.row && col === startNodePos.col,
+            isFinish: row === finishNodePos.row && col === finishNodePos.col,
+            distance: Infinity,
+            isVisited: false,
+            isWall: false,
+            previousNode: null
+        }
     }
 
     return (
@@ -74,6 +123,7 @@ const PathfindingVisualizer = () => {
             <Header 
                 onMainButtonClick={(algorithm) => handleVisualizationStart(algorithm)}
                 resetGrid={() => handleResetGrid(grid, 0, 0)}
+                onSelectInsert={(type) => setInsertType(type)}
                 >
             </Header>
 
@@ -99,34 +149,6 @@ const PathfindingVisualizer = () => {
             </div>
         </>
   )
-}
-
-const getInitialGrid = () => {
-    let numRows = Math.floor(window.innerHeight / 30);
-    let numCols = Math.floor(window.innerWidth / 30);
-    const grid = []
-
-    for (let row = 0; row < numRows; row++) {
-        const currentRow = [];
-        for (let col = 0; col < numCols; col++) {
-            currentRow.push(createNode(row, col));
-        }
-        grid.push(currentRow);
-    }
-    return grid;
-}
-
-const createNode = (row, col) => {
-    return {
-        row,
-        col,
-        isStart: row === START_NODE_ROW && col === START_NODE_COL,
-        isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
-        distance: Infinity,
-        isVisited: false,
-        isWall: false,
-        previousNode: null
-    }
 }
 
 export default PathfindingVisualizer
