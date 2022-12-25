@@ -14,6 +14,7 @@ var FINISH_NODE_COL = 20;
 
 const PathfindingVisualizer = () => {
     const [grid, setGrid] = useState([]);
+    const [visualizationStarted, setVisualizationStarted] = useState(false);
     const [mouseIsPressed, setMouseIsPressed] = useState(false);
     
     useEffect(() => {
@@ -21,20 +22,23 @@ const PathfindingVisualizer = () => {
     }, []);
 
     const handleMouseDown = (grid, row, col) => {
+        if (visualizationStarted) return;
+
         const newGrid = grid.slice();
         let node = newGrid[row][col];
 
         if (node.isStart || node.isFinish) return;
 
-        node.isWall = true;
+        node.isWall = !node.isWall;
         setGrid(newGrid)
         setMouseIsPressed(true);
     }
 
     const handleMouseEnter = (grid, row, col) => {
+        if (visualizationStarted) return;
         if (mouseIsPressed) {
             const newGrid = grid.slice();
-            newGrid[row][col].isWall = true;
+            newGrid[row][col].isWall = !newGrid[row][col].isWall;
             setGrid(newGrid)
         }
     }
@@ -44,12 +48,14 @@ const PathfindingVisualizer = () => {
     }
 
     const handleVisualizationStart = (algorithm) => {
+        setVisualizationStarted(true);
         if (algorithm === 'DIJKSTRA') {
             visualizeDijkastra(grid, START_NODE_ROW, START_NODE_COL, FINISH_NODE_ROW, FINISH_NODE_COL);
         }
     }
 
     const handleResetGrid = (grid) => {
+        setVisualizationStarted(false);
         const testGrid = document.getElementsByClassName("grid")[0].childNodes;
 
         for (let row = 0; row < grid.length; row++) {
@@ -59,10 +65,8 @@ const PathfindingVisualizer = () => {
                 domNode.classList.remove('node-shortest-path');
             }
         }
-
         setGrid(getInitialGrid())
     }
-    
 
     return (
         <>
