@@ -1,0 +1,222 @@
+header {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.header-top, .header-bottom {
+    max-width: 1400px;
+    width: 100%;
+    display: flex;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-top h1 {
+    font-size: 1.5rem;
+    font-weight: normal;
+}
+
+.header-themes-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.themes-label {
+    margin: 0 10px;
+}
+
+.themes-circle-container {
+    display: block;
+    position: relative;
+    background: #D9D9D9;
+    width: 60px;
+    height: 30px;
+    border-radius: 50px;
+}
+
+.themes-circle {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    background: white;
+    border-radius: 50%;
+    top: 4px;
+    right: 0;
+    transition: all .2s ease-out;
+}
+
+.selected-theme-light {
+    right: 5px;
+}
+
+.selected-theme-dark {
+    right: 33px;
+}
+
+
+
+.header-bottom {
+    margin-top: 2rem;
+}
+
+.header-input-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.header-dropdown {
+    width: 200px;
+    position: relative;
+}
+
+.header-dropdown label {
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+}
+
+.header-dropdown .input-question {
+    font-size: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border: 1px solid black;
+    border-radius: 50%;
+    margin-left: 5px;
+}
+
+.header-dropdown .input-question-description {
+    position: absolute;
+    top: -50%;
+    left: 60%;
+    padding: 10px;
+    font-size: 14px;
+    background: #ffffff;
+    box-shadow: 3px 3px 10px 6px #0000000f;
+    width: 150%;
+    z-index: 9999;
+    animation: .2s appear-question-description ease-out forwards;
+}
+
+.header-dropdown .header-dropdown-btn {
+    padding: 10px;
+    margin-top: 10px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+}
+
+.header-dropdown-btn i {
+    transition: all .2s ease-out;
+}
+
+.dropdown-icon-rotate {
+    transform: rotateX(180deg);
+}
+
+.header-dropdown-content {
+    position: absolute;
+    margin-top: 10px;
+    left: 0;
+    padding: 10px;
+    background: #ffffff;
+    box-shadow: 3px 3px 10px 6px #0000000f;
+    width: 200px;
+    z-index: 999;
+}
+
+.header-dropdown .header-dropdown-content .header-dropdown-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: all .2s ease-out;
+    user-select: none;
+}
+
+.header-dropdown .header-dropdown-content .header-dropdown-item:hover {
+    background: #e4e4e4;
+}
+
+
+
+.header-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.header-action-btn i {
+    margin-top: 5px;
+    background: #4FCCB9;
+    color: white;
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    position: relative;
+}
+
+.fa-play::before {
+    position: relative;
+    left: 2px;
+}
+
+.header-dropdown-clear {
+    display: flex;
+    width: 100px;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.header-dropdown-clear p {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-dropdown-clear-content {
+    position: absolute;
+    margin-top: 30px;
+    left: 0;
+    padding: 10px;
+    background: #ffffff;
+    box-shadow: 3px 3px 10px 6px #0000000f;
+    width: 200px;
+    z-index: 999;
+}
+
+.header-dropdown-clear-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: all .2s ease-out;
+    user-select: none;
+}
+
+.header-dropdown-clear-item:hover {
+    background: #e4e4e4;
+}
+
+@keyframes appear-question-description {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

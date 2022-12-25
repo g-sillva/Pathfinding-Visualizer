@@ -1,6 +1,7 @@
-import PathfindingVisualizer from './PathfindingVisualizer/PathfindingVisualizer'
+import PathfindingVisualizer from './PathfindingVisualizer/PathfindingVisualizer';
 
 function App() {
+
   return (
     <>
       <PathfindingVisualizer></PathfindingVisualizer>

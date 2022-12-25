@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { visualizeDijkastra } from './Algorithms/dijkstra';
+import React, { useEffect, useState } from 'react';
 
 import Node from './Node/Node';
+import Header from './../Components/Header/Header';
+
 
 import './PathfindingVisualizer.css';
+import { visualizeDijkastra } from './Algorithms/dijkstra';
 
 var START_NODE_ROW = 10;
 var START_NODE_COL = 15;
@@ -32,7 +34,7 @@ const PathfindingVisualizer = () => {
     const handleMouseEnter = (grid, row, col) => {
         if (mouseIsPressed) {
             const newGrid = grid.slice();
-            grid[row][col].isWall = true;
+            newGrid[row][col].isWall = true;
             setGrid(newGrid)
         }
     }
@@ -40,34 +42,60 @@ const PathfindingVisualizer = () => {
     const handleMouseUp = () => {
         setMouseIsPressed(false);
     }
+
+    const handleVisualizationStart = (algorithm) => {
+        if (algorithm === 'DIJKSTRA') {
+            visualizeDijkastra(grid, START_NODE_ROW, START_NODE_COL, FINISH_NODE_ROW, FINISH_NODE_COL);
+        }
+    }
+
+    const handleResetGrid = (grid) => {
+        const newGrid = grid.slice();
+        const testGrid = document.getElementsByClassName("grid")[0].childNodes;
+
+        for (let row = 0; row < grid.length; row++) {
+            for (let col = 0; col < grid[row].length; col++) {
+                let domNode = testGrid[row].childNodes[col];
+                if (domNode.className === 'node node-visited' || domNode.className === 'node node-shortest-path') {
+                    domNode.className = 'node'
+                }
+            }
+        }
+
+        setGrid(getInitialGrid())
+    }
     
 
     return (
-    <div className='grid'>
-        <button onClick=
-        {
-            () => visualizeDijkastra(grid, START_NODE_ROW, START_NODE_COL, FINISH_NODE_ROW, FINISH_NODE_COL)
-        }
-        >ATIVAR</button>
-        {grid.map((row, rowI) => (
-            <div key={rowI} className="row">
-                {
-                    row.map((node, nodeI) => 
-                    <Node 
-                        key={nodeI}
-                        col={node.col}
-                        row={node.row}
-                        isStart={node.isStart}
-                        isFinish={node.isFinish}
-                        isWall={node.isWall}
-                        onMouseDown={(row, col) => handleMouseDown(grid, row, col)}
-                        onMouseEnter={(row, col) => handleMouseEnter(grid, row, col)}
-                        onMouseUp={() => handleMouseUp()}
-                    ></Node>)
-                }
+        <>
+
+            <Header 
+                onMainButtonClick={(algorithm) => handleVisualizationStart(algorithm)}
+                resetGrid={() => handleResetGrid(grid, 0, 0)}
+                >
+            </Header>
+
+            <div className='grid'>
+                {grid.map((row, rowI) => (
+                    <div key={rowI} className="row">
+                        {
+                            row.map((node, nodeI) => 
+                            <Node 
+                                key={nodeI}
+                                col={node.col}
+                                row={node.row}
+                                isStart={node.isStart}
+                                isFinish={node.isFinish}
+                                isWall={node.isWall}
+                                onMouseDown={(row, col) => handleMouseDown(grid, row, col)}
+                                onMouseEnter={(row, col) => handleMouseEnter(grid, row, col)}
+                                onMouseUp={() => handleMouseUp()}
+                            ></Node>)
+                        }
+                    </div>
+                ))}
             </div>
-        ))}
-    </div>
+        </>
   )
 }
 

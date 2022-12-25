@@ -3,6 +3,7 @@
     height: 30px;
     outline: 1px solid #f3f2f2;
     cursor: pointer;
+    user-select: none;
 }
 
 .node-start {
