@@ -50,15 +50,13 @@ const PathfindingVisualizer = () => {
     }
 
     const handleResetGrid = (grid) => {
-        const newGrid = grid.slice();
         const testGrid = document.getElementsByClassName("grid")[0].childNodes;
 
         for (let row = 0; row < grid.length; row++) {
             for (let col = 0; col < grid[row].length; col++) {
                 let domNode = testGrid[row].childNodes[col];
-                if (domNode.className === 'node node-visited' || domNode.className === 'node node-shortest-path') {
-                    domNode.className = 'node'
-                }
+                domNode.classList.remove('node-visited');
+                domNode.classList.remove('node-shortest-path');
             }
         }
 

@@ -77,8 +77,13 @@ const animateDijkstra = (visitedNodesInOrder, nodesInShortestPathOrder) => {
         }
         setTimeout(() => {
             const node = visitedNodesInOrder[i];
-            if (node.isStart || node.isFinish) return; 
-            document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-visited';
+            if (node.isStart) {
+                document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-start node-visited';
+            } else if (node.isFinish) {
+                document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-finish node-visited';
+            } else {
+                document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-visited';
+            }
         }, 10 * i);
     }
 }
@@ -87,8 +92,13 @@ const animateShortestPath = (nodesInShortestPathOrder) => {
     for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
       setTimeout(() => {
         const node = nodesInShortestPathOrder[i];
-        if (node.isStart || node.isFinish) return; 
-        document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
+        if (node.isStart) {
+            document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-start node-shortest-path';
+        } else if (node.isFinish) {
+            document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-finish node-shortest-path';
+        } else {
+            document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
+        }
       }, 50 * i);
     }
 }

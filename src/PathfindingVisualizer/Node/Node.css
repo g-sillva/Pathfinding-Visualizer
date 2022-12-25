@@ -7,11 +7,18 @@
 }
 
 .node-start {
-    background: rgb(54, 255, 54);
+    background-image: url('./../../assets/location.svg');
+    background-size: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 999;
 }
 
 .node-finish {
-    background: rgb(255, 47, 47);
+    background: url('./../../assets/flag.svg');
+    background-size: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .node-visited {
@@ -46,7 +53,7 @@
 @keyframes node-shortest-show {
     0% {
         transform: scale(1);
-        background: #ffff16;
+        background-color: #ffff16;
     }
 
     75% {
@@ -55,7 +62,7 @@
 
     100% {
         transform: scale(1);
-        background: #ffff16;
+        background-color: #ffff16;
     }
 }
 
