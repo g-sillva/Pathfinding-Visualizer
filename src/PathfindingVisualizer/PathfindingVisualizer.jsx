@@ -75,14 +75,28 @@ const PathfindingVisualizer = () => {
         }
     }
 
+    const handleClearGrid = (grid) => {
+        const domGrid = document.getElementsByClassName("grid")[0].childNodes;
+        for (let row = 0; row < grid.length; row++) {
+            for (let col = 0; col < grid[row].length; col++) {
+                removeNodeClass(domGrid, row, col);
+
+                if (grid[row][col].isWall) {
+                    grid[row][col].isWall = false;
+                }
+            }
+        }
+        setGrid(getInitialGrid());
+        setIsVisualizationRunning(false);
+        clearAnimations();
+    }
+
     const handleResetGrid = (grid) => {
         const domGrid = document.getElementsByClassName("grid")[0].childNodes;
 
         for (let row = 0; row < grid.length; row++) {
             for (let col = 0; col < grid[row].length; col++) {
-                let domNode = domGrid[row].childNodes[col];
-                domNode.classList.remove('node-visited');
-                domNode.classList.remove('node-shortest-path');
+                removeNodeClass(domGrid, row, col);
             }
         }
         setGrid(getInitialGrid());
@@ -95,6 +109,12 @@ const PathfindingVisualizer = () => {
         for (let i = 0; i < lastTimeoutId; i++) {
             clearTimeout(i);
         }
+    }
+
+    const removeNodeClass = (domGrid, row, col) => {
+        let domNode = domGrid[row].childNodes[col];
+        domNode.classList.remove('node-visited');
+        domNode.classList.remove('node-shortest-path');
     }
 
     const getInitialGrid = () => {
@@ -131,7 +151,8 @@ const PathfindingVisualizer = () => {
                 onMainButtonClick={(algorithm) => handleVisualizationStart(algorithm)}
                 resetGrid={() => handleResetGrid(grid, 0, 0)}
                 onSelectInsert={(type) => setInsertType(type)}
-                isAnimationRunning={isVisualizationRunning}
+                isAnimationRunning={isVisualizationRunning} 
+                onClickClear={() => handleClearGrid(grid)}
                 >
             </Header>
 

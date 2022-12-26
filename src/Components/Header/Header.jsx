@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import './Header.css';
 
-const Header = ({ onMainButtonClick, resetGrid, onSelectInsert, isAnimationRunning }) => {
+const Header = ({ onMainButtonClick, resetGrid, onSelectInsert, isAnimationRunning, onClickClear }) => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [mainButtonClicked, setMainButtonClicked] = useState(false);
 
@@ -27,13 +27,9 @@ const Header = ({ onMainButtonClick, resetGrid, onSelectInsert, isAnimationRunni
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut accusamus itaque quibusdam iure. Repellendus aliquid, voluptas non vero ipsam explicabo.'
   });
 
-  const [clearDropDown, setClearDropDown] = useState({isDropDownOpen: false });
-
-
   const algoDropDownOptions = ['DIJKSTRA', 'TESTE 1', 'TESTE 2', 'TESTE 3'];
   const patternDropDownOptions = ['NONE', 'MAZE'];
   const insertDropDownOptions = ['WALL', 'START', 'FINISH'];
-  const clearDropDownOptions = ['ALL'];
 
   const handleMainButtonClick = () => {
     if (!mainButtonClicked) {
@@ -42,6 +38,11 @@ const Header = ({ onMainButtonClick, resetGrid, onSelectInsert, isAnimationRunni
       resetGrid();
     }
     setMainButtonClicked(!mainButtonClicked)
+  }
+
+  const handleClearClick = () => {
+    setMainButtonClicked(false);
+    onClickClear();
   }
 
   return (
@@ -177,22 +178,9 @@ const Header = ({ onMainButtonClick, resetGrid, onSelectInsert, isAnimationRunni
           {/* CLEAR DROPDOWN */}
 
           <div className='header-dropdown-clear'>
-            <p onClick={() => setClearDropDown({...clearDropDown, isDropDownOpen: !clearDropDown.isDropDownOpen})}>
+            <p onClick={() => handleClearClick()}>
               CLEAR
-            <i className={`fa-solid fa-angle-down ${clearDropDown.isDropDownOpen && 'DropDown-icon-rotate'}`}></i>
             </p>
-
-            {clearDropDown.isDropDownOpen && 
-              <div className='header-dropdown-clear-content'>
-                {clearDropDownOptions.map((val, valIdx) => (
-                  <div 
-                  className='header-dropdown-clear-item'
-                  key={valIdx}
-                  onClick={(e) => setClearDropDown({...insertDropDown, isDropDownOpen: false})}
-                  >{val}</div>
-                ))}
-              </div>
-            }
           </div>
 
 

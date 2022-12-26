@@ -177,40 +177,20 @@ header {
 }
 
 .header-dropdown-clear {
-    display: flex;
     width: 100px;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
+    text-align: center;
+    margin-top: 20px;
 }
 
 .header-dropdown-clear p {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.header-dropdown-clear-content {
-    position: absolute;
-    margin-top: 30px;
-    left: 0;
-    padding: 10px;
-    background: #ffffff;
-    box-shadow: 3px 3px 10px 6px #0000000f;
-    width: 200px;
-    z-index: 999;
-}
-
-.header-dropdown-clear-item {
-    padding: 10px;
     cursor: pointer;
-    transition: all .2s ease-out;
-    user-select: none;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all .1s ease-out;
 }
 
-.header-dropdown-clear-item:hover {
-    background: #e4e4e4;
+.header-dropdown-clear p:hover {
+    background: rgba(0, 0, 0, 0.05);
 }
 
 @keyframes appear-question-description {
