@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import './Header.css';
 
-const Header = ({ onMainButtonClick, resetGrid, onSelectInsert }) => {
+const Header = ({ onMainButtonClick, resetGrid, onSelectInsert, isAnimationRunning }) => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [mainButtonClicked, setMainButtonClicked] = useState(false);
 

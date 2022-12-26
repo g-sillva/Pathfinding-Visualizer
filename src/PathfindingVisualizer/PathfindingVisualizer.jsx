@@ -9,7 +9,7 @@ import { visualizeDijkastra } from './Algorithms/dijkstra';
 
 const PathfindingVisualizer = () => {
     const [grid, setGrid] = useState([]);
-    const [visualizationStarted, setVisualizationStarted] = useState(false);
+    const [isVisualizationRunning, setIsVisualizationRunning] = useState(false);
     const [mouseIsPressed, setMouseIsPressed] = useState(false);
 
     const [startNodePos, setStartNodePos] = useState({row: 10, col: 20});
@@ -28,7 +28,7 @@ const PathfindingVisualizer = () => {
     }, []);
 
     const handleMouseDown = (grid, row, col) => {
-        if (visualizationStarted) return;
+        if (isVisualizationRunning) return;
         const newGrid = grid.slice();
 
         let node = newGrid[row][col];
@@ -53,7 +53,7 @@ const PathfindingVisualizer = () => {
     }
 
     const handleMouseEnter = (grid, row, col) => {
-        if (visualizationStarted) return;
+        if (isVisualizationRunning) return;
         if (mouseIsPressed && insertType === 'WALL') {
             const newGrid = grid.slice();
             let node = newGrid[row][col];
@@ -69,14 +69,13 @@ const PathfindingVisualizer = () => {
     }
 
     const handleVisualizationStart = (algorithm) => {
-        setVisualizationStarted(true);
+        setIsVisualizationRunning(true);
         if (algorithm === 'DIJKSTRA') {
             visualizeDijkastra(grid, startNodePos.row, startNodePos.col, finishNodePos.row, finishNodePos.col);
         }
     }
 
     const handleResetGrid = (grid) => {
-        setVisualizationStarted(false);
         const domGrid = document.getElementsByClassName("grid")[0].childNodes;
 
         for (let row = 0; row < grid.length; row++) {
@@ -86,7 +85,16 @@ const PathfindingVisualizer = () => {
                 domNode.classList.remove('node-shortest-path');
             }
         }
-        setGrid(getInitialGrid())
+        setGrid(getInitialGrid());
+        setIsVisualizationRunning(false);
+        clearAnimations();
+    }
+
+    const clearAnimations = () => {
+        let lastTimeoutId = setTimeout(';');
+        for (let i = 0; i < lastTimeoutId; i++) {
+            clearTimeout(i);
+        }
     }
 
     const getInitialGrid = () => {
@@ -112,18 +120,18 @@ const PathfindingVisualizer = () => {
             isFinish: row === finishNodePos.row && col === finishNodePos.col,
             distance: Infinity,
             isVisited: false,
-            isWall: false,
+            isWall: grid.length === 0 ? false : grid[row][col].isWall,
             previousNode: null
         }
     }
 
     return (
         <>
-
             <Header 
                 onMainButtonClick={(algorithm) => handleVisualizationStart(algorithm)}
                 resetGrid={() => handleResetGrid(grid, 0, 0)}
                 onSelectInsert={(type) => setInsertType(type)}
+                isAnimationRunning={isVisualizationRunning}
                 >
             </Header>
 
