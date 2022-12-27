@@ -9,15 +9,19 @@ function breadthFirst(grid, startNode, finishNode) {
     while (queue.length > 0) {
         let currentNode = queue.pop();
         let unvisitedNeighbors = getUnvisitedNeighbors(currentNode, grid);
+        visitedNodesInOrder.push(currentNode);
         
         for (let neighbor of unvisitedNeighbors) {
             if (neighbor.isWall) continue;
             
             neighbor.isVisited = true;
             neighbor.previousNode = currentNode;
-            visitedNodesInOrder.push(neighbor);
+            
 
-            if (neighbor === finishNode) return visitedNodesInOrder;
+            if (neighbor === finishNode) {
+                visitedNodesInOrder.push(neighbor);
+                return visitedNodesInOrder
+            }
             queue.push(neighbor);
         }
     }
