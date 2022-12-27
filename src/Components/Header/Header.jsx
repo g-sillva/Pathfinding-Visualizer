@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import './Header.css';
 
-const Header = ({ onMainButtonClick, onResetGrid, onSelectInsert, isAnimationRunning, onClickClear, onClickInfo }) => {
+const Header = ({ onMainButtonClick, onResetGrid, onSelectInsert, onSelectAlgorithm, isAnimationRunning, onClickClear, onClickInfo }) => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [mainButtonClicked, setMainButtonClicked] = useState(false);
 
@@ -27,9 +27,11 @@ const Header = ({ onMainButtonClick, onResetGrid, onSelectInsert, isAnimationRun
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut accusamus itaque quibusdam iure. Repellendus aliquid, voluptas non vero ipsam explicabo.'
   });
 
-  const algoDropDownOptions = ['DIJKSTRA', 'DEPTH FIRST SEARCH', 'BREADTH FIRST SEARCH', 'TESTE 3'];
+  const weightedAlgoDropOptions = ['DIJKSTRA'];
+  const unweightedAlgoDropOptions = ['DEPTH FIRST SEARCH', 'BREADTH FIRST SEARCH'];
+  const algoDropDownOptions = weightedAlgoDropOptions.concat(unweightedAlgoDropOptions);
   const patternDropDownOptions = ['NONE', 'MAZE'];
-  const insertDropDownOptions = ['WALL', 'START', 'FINISH'];
+  const insertDropDownOptions = ['WALL', 'WEIGHT', 'START', 'FINISH'];
 
   const handleMainButtonClick = () => {
     if (!mainButtonClicked) {
@@ -88,7 +90,13 @@ const Header = ({ onMainButtonClick, onResetGrid, onSelectInsert, isAnimationRun
                   <div 
                   className='header-dropdown-item'
                   key={valIdx}
-                  onClick={(e) => setAlgorithmDropDown({...algorithmDropDown, selected: val, isDropDownOpen: false})}
+                  onClick={(e) => {
+                    setAlgorithmDropDown({...algorithmDropDown, selected: val, isDropDownOpen: false});
+                    setInsertDropDown({...insertDropDown, selected: 'WALL', isDropDownOpen: false});
+                    onSelectAlgorithm(unweightedAlgoDropOptions, val);
+                    setMainButtonClicked(false);
+                    onSelectInsert('WALL');
+                  }}
                   >{val}</div>
                 ))}
               </div>
@@ -164,9 +172,11 @@ const Header = ({ onMainButtonClick, onResetGrid, onSelectInsert, isAnimationRun
               <div className='header-dropdown-content'>
                 {insertDropDownOptions.map((val, valIdx) => (
                   <div 
-                  className='header-dropdown-item'
+                  className={`header-dropdown-item 
+                  ${(unweightedAlgoDropOptions.includes(algorithmDropDown.selected) && val === 'WEIGHT') && 'dropdown-item-deactivate'}`}
                   key={valIdx}
                   onClick={(e) => {
+                    if (unweightedAlgoDropOptions.includes(algorithmDropDown.selected) && val === 'WEIGHT') return;
                     setInsertDropDown({...insertDropDown, selected: val, isDropDownOpen: false});
                     onSelectInsert(val);
                   }}

@@ -159,6 +159,9 @@ header {
     background: #e4e4e4;
 }
 
+.dropdown-item-deactivate {
+    opacity: .2;
+}
 
 
 .header-action-btn {

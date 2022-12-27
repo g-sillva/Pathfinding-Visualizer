@@ -28,12 +28,11 @@ const PathfindingVisualizer = () => {
         setStartNodePos({row: (numRows / 2) >> 0, col: (numCols / 4) >> 0});
         setFinishNodePos({row: (numRows / 2) >> 0, col: (numCols - (numCols / 4)) >> 0});
 
-
         newGrid[(numRows / 2) >> 0][(numCols / 4) >> 0].isStart  = true;
         newGrid[(numRows / 2) >> 0][(numCols - (numCols / 4)) >> 0].isFinish  = true;
         setGrid(newGrid);
 
-        document.addEventListener('mouseup', () => setMouseIsPressed(false))
+        window.addEventListener('mouseup', () => setMouseIsPressed(false));
     }, []);
 
     const handleMouseDown = (grid, row, col) => {
@@ -45,14 +44,21 @@ const PathfindingVisualizer = () => {
 
         if (insertType === 'WALL') {
             node.isWall = !node.isWall;
+            node.isWeight = false;
+            setMouseIsPressed(true);
+        } else if (insertType === 'WEIGHT') {
+            node.isWall = false;
+            node.isWeight = !node.isWeight;
             setMouseIsPressed(true);
         } else if (insertType === 'START') {
             node.isWall = false;
+            node.isWeight = false;
             node.isStart = true;
             newGrid[startNodePos.row][startNodePos.col].isStart = false;
             setStartNodePos({row, col});
         } else if (insertType === 'FINISH') {
             node.isWall = false;
+            node.isWeight = false;
             node.isFinish = true;
             newGrid[finishNodePos.row][finishNodePos.col].isFinish = false;
             setFinishNodePos({row, col});
@@ -63,12 +69,18 @@ const PathfindingVisualizer = () => {
 
     const handleMouseEnter = (grid, row, col) => {
         if (isVisualizationRunning) return;
-        if (mouseIsPressed && insertType === 'WALL') {
+        if (mouseIsPressed) {
             const newGrid = grid.slice();
             let node = newGrid[row][col];
-
             if (node.isStart || node.isFinish) return;
-            node.isWall = !node.isWall;
+
+            if (insertType === 'WALL') {
+                node.isWall = !node.isWall;
+                node.isWeight = false;
+            } else if (insertType === 'WEIGHT') {
+                node.isWall = false;
+                node.isWeight = !node.isWeight;
+            }
             setGrid(newGrid)
         }
     }
@@ -88,14 +100,31 @@ const PathfindingVisualizer = () => {
         }
     }
 
+    const handleAlgorithmSelect = (unweightedList, name) => {
+        if (unweightedList.includes(name)) {
+            const domGrid = document.getElementsByClassName("grid")[0].childNodes;
+
+            for (let row = 0; row < grid.length; row++) {
+                for (let col = 0; col < grid[row].length; col++) {
+                    removeNodeClass(domGrid, row, col);
+                    grid[row][col].isWeight = false;
+                }
+            }
+            setGrid(getInitialGrid());
+            setIsVisualizationRunning(false);
+            clearAnimations();
+        }
+    }
+
     const handleClearGrid = (grid) => {
         const domGrid = document.getElementsByClassName("grid")[0].childNodes;
         for (let row = 0; row < grid.length; row++) {
             for (let col = 0; col < grid[row].length; col++) {
                 removeNodeClass(domGrid, row, col);
 
-                if (grid[row][col].isWall) {
+                if (grid[row][col]) {
                     grid[row][col].isWall = false;
+                    grid[row][col].isWeight = false;
                 }
             }
         }
@@ -124,10 +153,12 @@ const PathfindingVisualizer = () => {
         }
     }
 
-    const removeNodeClass = (domGrid, row, col) => {
+    const removeNodeClass = (domGrid, row, col) => {    
         let domNode = domGrid[row].childNodes[col];
-        domNode.classList.remove('node-visited');
-        domNode.classList.remove('node-shortest-path');
+        if (domNode) {
+            domNode.classList.remove('node-visited');
+            domNode.classList.remove('node-shortest-path');
+        }
     }
 
     const getInitialGrid = () => {
@@ -154,6 +185,7 @@ const PathfindingVisualizer = () => {
             distance: Infinity,
             isVisited: false,
             isWall: grid.length === 0 ? false : grid[row][col].isWall,
+            isWeight: grid.length === 0 ? false : grid[row][col].isWeight,
             previousNode: null
         }
     }
@@ -165,6 +197,7 @@ const PathfindingVisualizer = () => {
                 onResetGrid={() => handleResetGrid(grid, 0, 0)}
                 onSelectInsert={(type) => setInsertType(type)}
                 onClickClear={() => handleClearGrid(grid)}
+                onSelectAlgorithm={(unweightedList, name) => handleAlgorithmSelect(unweightedList, name)}
                 isAnimationRunning={isVisualizationRunning}
                 onClickInfo={() => setIsSidebarOpen(!isSidebarOpen)}
                 >
@@ -184,6 +217,7 @@ const PathfindingVisualizer = () => {
                                 isStart={node.isStart}
                                 isFinish={node.isFinish}
                                 isWall={node.isWall}
+                                isWeight={node.isWeight}
                                 onMouseDown={(row, col) => handleMouseDown(grid, row, col)}
                                 onMouseEnter={(row, col) => handleMouseEnter(grid, row, col)}
                                 onMouseUp={() => handleMouseUp()}

@@ -16,13 +16,17 @@ function dijkstra(grid, startNode, finishNode) {
         if (closestNode === finishNode) return visitedNodesInOrder;
         updateUnvisitedNeighbors(closestNode, grid);
     }
-    return visitedNodesInOrder;
 }
 
 function updateUnvisitedNeighbors(node, grid) {
     const unvisitedNeighbors = getUnvisitedNeighbors(node, grid);
     for (let n of unvisitedNeighbors) {
-        n.distance = node.distance + 1;
+        if (n.isWeight) {
+            n.distance = node.distance + 10;
+            console.log(n);
+        } else {
+            n.distance = node.distance + 1;
+        }
         n.previousNode = node;
     }
 }
@@ -82,6 +86,8 @@ const animateDijkstra = (visitedNodesInOrder, nodesInShortestPathOrder) => {
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-start node-visited';
             } else if (node.isFinish) {
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-finish node-visited';
+            } else if (node.isWeight) {
+                document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-weight node-visited';
             } else {
                 document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-visited';
             }
@@ -97,6 +103,8 @@ const animateShortestPath = (nodesInShortestPathOrder) => {
             document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-start node-shortest-path';
         } else if (node.isFinish) {
             document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-finish node-shortest-path';
+        } else if (node.isWeight) {
+            document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-weight node-shortest-path';
         } else {
             document.getElementById(`node-${node.row}-${node.col}`).className = 'node node-shortest-path';
         }

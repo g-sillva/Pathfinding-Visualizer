@@ -7,13 +7,23 @@ const Node = (
     isStart,
     isFinish,
     isWall,
+    isWeight,
     col,
     row,
     onMouseDown,
     onMouseEnter,
     onMouseUp
   }) => {
-  const nodeClassName = isStart ? 'node-start' : isFinish ? 'node-finish' : isWall ? 'node-wall' : '';
+  const nodeClassName = 
+    isStart ?
+    'node-start' :
+    isFinish ?
+    'node-finish' :
+    isWall ?
+    'node-wall' :
+    isWeight ?
+    'node-weight' :
+    '';
 
   return (
     <div 
