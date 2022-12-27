@@ -7,8 +7,9 @@ const items = [
     {name: 'Visited Node', class: 'square square-visited'},
     {name: 'Path Node', class: 'square square-path'},
     {name: 'Wall Node', class: 'square square-wall'},
-    {name: 'Start position', class: 'pos start-pos'},
-    {name: 'Finish position', class: 'pos finish-pos'},
+    {name: 'Weighted Node', class: 'weighted-node'},
+    {name: 'Start position', class: 'start-pos'},
+    {name: 'Finish position', class: 'finish-pos'},
 ]
 
 const Sidebar = ({ onCloseClick }) => {

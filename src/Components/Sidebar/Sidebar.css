@@ -122,6 +122,16 @@
     background-repeat: no-repeat;
 }
 
+.sidebar-item .weighted-node {
+    width: 35px;
+    height: 35px;
+    background: url('../../assets/weight.svg');
+    opacity: .8;
+    background-size: 25px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .sidebar-item p {
     margin-left: 1rem;
 }

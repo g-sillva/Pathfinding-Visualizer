@@ -12,7 +12,7 @@ import { visualizeBreadthFirstSearch } from './Algorithms/unweighted/breadth_fir
 const PathfindingVisualizer = () => {
     const [grid, setGrid] = useState([]);
     const [isVisualizationRunning, setIsVisualizationRunning] = useState(false);
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [mouseIsPressed, setMouseIsPressed] = useState(false);
 
     const [startNodePos, setStartNodePos] = useState({});
