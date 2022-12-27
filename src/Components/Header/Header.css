@@ -81,7 +81,7 @@ header {
 }
 
 .header-dropdown {
-    width: 200px;
+    width: 220px;
     position: relative;
 }
 
@@ -144,7 +144,7 @@ header {
     padding: 10px;
     background: #ffffff;
     box-shadow: 3px 3px 10px 6px #0000000f;
-    width: 200px;
+    width: 220px;
     z-index: 999;
 }
 

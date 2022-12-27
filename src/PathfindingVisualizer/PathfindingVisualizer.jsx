@@ -7,6 +7,7 @@ import Sidebar from './../Components/Sidebar/Sidebar';
 import './PathfindingVisualizer.css';
 import { visualizeDijkastra } from './Algorithms/weighted/dijkstra';
 import { visualizeDepthFirstSearch } from './Algorithms/unweighted/depth_first_search';
+import { visualizeBreadthFirstSearch } from './Algorithms/unweighted/breadth_first_search';
 
 const PathfindingVisualizer = () => {
     const [grid, setGrid] = useState([]);
@@ -76,6 +77,8 @@ const PathfindingVisualizer = () => {
             visualizeDijkastra(grid, startNodePos.row, startNodePos.col, finishNodePos.row, finishNodePos.col);
         } else if (algorithm === 'DEPTH FIRST SEARCH') {
             visualizeDepthFirstSearch(grid, startNodePos.row, startNodePos.col, finishNodePos.row, finishNodePos.col);
+        } else if (algorithm === 'BREADTH FIRST SEARCH') {
+            visualizeBreadthFirstSearch(grid, startNodePos.row, startNodePos.col, finishNodePos.row, finishNodePos.col);
         }
     }
 
