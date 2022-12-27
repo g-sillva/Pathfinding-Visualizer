@@ -27,7 +27,7 @@ const Header = ({ onMainButtonClick, resetGrid, onSelectInsert, isAnimationRunni
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut accusamus itaque quibusdam iure. Repellendus aliquid, voluptas non vero ipsam explicabo.'
   });
 
-  const algoDropDownOptions = ['DIJKSTRA', 'TESTE 1', 'TESTE 2', 'TESTE 3'];
+  const algoDropDownOptions = ['DIJKSTRA', 'BREADTH FIRST', 'TESTE 2', 'TESTE 3'];
   const patternDropDownOptions = ['NONE', 'MAZE'];
   const insertDropDownOptions = ['WALL', 'START', 'FINISH'];
 

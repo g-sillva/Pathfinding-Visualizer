@@ -5,7 +5,8 @@ import Header from './../Components/Header/Header';
 
 
 import './PathfindingVisualizer.css';
-import { visualizeDijkastra } from './Algorithms/dijkstra';
+import { visualizeDijkastra } from './Algorithms/weighted/dijkstra';
+import { visualizeBreadthFirst } from './Algorithms/unweighted/breadth_first';
 
 const PathfindingVisualizer = () => {
     const [grid, setGrid] = useState([]);
@@ -72,6 +73,8 @@ const PathfindingVisualizer = () => {
         setIsVisualizationRunning(true);
         if (algorithm === 'DIJKSTRA') {
             visualizeDijkastra(grid, startNodePos.row, startNodePos.col, finishNodePos.row, finishNodePos.col);
+        } else if (algorithm === 'BREADTH FIRST') {
+            visualizeBreadthFirst(grid, startNodePos.row, startNodePos.col, finishNodePos.row, finishNodePos.col);
         }
     }
 
