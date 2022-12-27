@@ -19,6 +19,15 @@ header {
     font-weight: normal;
 }
 
+.header-top .fa-circle-question {
+    position: absolute;
+    cursor: pointer;
+    opacity: .8;
+    font-size: 2rem;
+    left: 95%;
+    top: 6%;
+}
+
 .header-themes-container {
     display: flex;
     align-items: center;

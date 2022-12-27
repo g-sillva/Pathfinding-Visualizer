@@ -1,0 +1,141 @@
+.sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 9999;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+    height: 100vh;
+    box-shadow: 3px 3px 10px 6px #0000000f;
+    padding: 2rem;
+}
+
+.sidebar .fa-xmark {
+    opacity: .8;
+    cursor: pointer;
+}
+
+.sidebar-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+}
+
+.sidebar-title {
+    font-weight: 500;
+    opacity: .87;
+}
+
+.sidebar-line {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 1px;
+    margin: 1rem 0;
+    background: rgb(207, 207, 207);
+}
+
+.sidebar-line::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -3px;
+    right: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgb(207, 207, 207);
+}
+
+.sidebar-line::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -3px;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgb(207, 207, 207);
+}
+
+.sidebar-items {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+}
+
+.sidebar-item .square {
+    display: block;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #f2f3f3;
+    border-radius: 3px;
+}
+
+.sidebar-item .square-visited {
+    background-color: #03DAC5;
+}
+
+.sidebar-item .square-path {
+    background-color: #ffff16;
+}
+
+.sidebar-item .square-wall {
+    background-color: #333333;
+}
+
+.sidebar-item .start-pos, .sidebar-item .start-pos ~ p {
+    margin-top: 2rem;
+}
+
+.sidebar-item .start-pos {
+    margin-top: 2rem;
+    width: 35px;
+    height: 35px;
+    background: url('../../assets/location.svg');
+    background-size: 30px;
+    opacity: .8;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.sidebar-item .finish-pos {
+    width: 35px;
+    height: 35px;
+    background: url('../../assets/flag.svg');
+    opacity: .8;
+    background-size: 25px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.sidebar-item p {
+    margin-left: 1rem;
+}
+
+.sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+}
+
+.sidebar-footer a {
+    font-size: 3rem;
+}
+
+.sidebar-footer-text {
+    margin-top: 10px;
+    font-size: 14px;
+    opacity: .6;
+}

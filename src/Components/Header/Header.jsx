@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import './Header.css';
 
-const Header = ({ onMainButtonClick, resetGrid, onSelectInsert, isAnimationRunning, onClickClear }) => {
+const Header = ({ onMainButtonClick, onResetGrid, onSelectInsert, isAnimationRunning, onClickClear, onClickInfo }) => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [mainButtonClicked, setMainButtonClicked] = useState(false);
 
@@ -35,7 +35,7 @@ const Header = ({ onMainButtonClick, resetGrid, onSelectInsert, isAnimationRunni
     if (!mainButtonClicked) {
       onMainButtonClick(algorithmDropDown.selected);
     } else {
-      resetGrid();
+      onResetGrid();
     }
     setMainButtonClicked(!mainButtonClicked)
   }
@@ -56,6 +56,7 @@ const Header = ({ onMainButtonClick, resetGrid, onSelectInsert, isAnimationRunni
           </span>
           <p className='themes-label'>Light</p>
         </div>
+        <i class="fa-regular fa-circle-question" onClick={() => onClickInfo()}></i>
       </div>
 
       <div className='header-bottom'>

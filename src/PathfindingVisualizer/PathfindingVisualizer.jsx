@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import Node from './Node/Node';
 import Header from './../Components/Header/Header';
-
+import Sidebar from './../Components/Sidebar/Sidebar';
 
 import './PathfindingVisualizer.css';
 import { visualizeDijkastra } from './Algorithms/weighted/dijkstra';
@@ -11,6 +11,7 @@ import { visualizeBreadthFirst } from './Algorithms/unweighted/breadth_first';
 const PathfindingVisualizer = () => {
     const [grid, setGrid] = useState([]);
     const [isVisualizationRunning, setIsVisualizationRunning] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [mouseIsPressed, setMouseIsPressed] = useState(false);
 
     const [startNodePos, setStartNodePos] = useState({row: 10, col: 20});
@@ -152,12 +153,15 @@ const PathfindingVisualizer = () => {
         <>
             <Header 
                 onMainButtonClick={(algorithm) => handleVisualizationStart(algorithm)}
-                resetGrid={() => handleResetGrid(grid, 0, 0)}
+                onResetGrid={() => handleResetGrid(grid, 0, 0)}
                 onSelectInsert={(type) => setInsertType(type)}
-                isAnimationRunning={isVisualizationRunning} 
                 onClickClear={() => handleClearGrid(grid)}
+                isAnimationRunning={isVisualizationRunning}
+                onClickInfo={() => setIsSidebarOpen(!isSidebarOpen)}
                 >
             </Header>
+
+            {isSidebarOpen && <Sidebar onCloseClick={() => setIsSidebarOpen(false)}></Sidebar>}
 
             <div className='grid'>
                 {grid.map((row, rowI) => (
