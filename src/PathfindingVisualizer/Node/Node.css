@@ -1,7 +1,9 @@
 .node {
     width: 25px;
     height: 25px;
-    outline: 1px solid #f2f3f3;
+    outline: 1px solid #e2e2e2;
+    margin-top: 1px;
+    margin-left: 1px;
     cursor: pointer;
     user-select: none;
 }

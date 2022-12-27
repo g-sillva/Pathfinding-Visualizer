@@ -15,16 +15,22 @@ const PathfindingVisualizer = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [mouseIsPressed, setMouseIsPressed] = useState(false);
 
-    const [startNodePos, setStartNodePos] = useState({row: 10, col: 20});
-    const [finishNodePos, setFinishNodePos] = useState({row: 10, col: 50});
+    const [startNodePos, setStartNodePos] = useState({});
+    const [finishNodePos, setFinishNodePos] = useState({});
     
     const [insertType, setInsertType] = useState('WALL');
     
     useEffect(() => {
         const newGrid = getInitialGrid();
 
-        newGrid[startNodePos.row][startNodePos.col].isStart  = true;
-        newGrid[finishNodePos.row][finishNodePos.col].isFinish  = true;
+        let numRows = Math.floor((window.innerHeight - 225) / 25);
+        let numCols = Math.floor((window.innerWidth - 75) / 25);
+        setStartNodePos({row: (numRows / 2) >> 0, col: (numCols / 4) >> 0});
+        setFinishNodePos({row: (numRows / 2) >> 0, col: (numCols - (numCols / 4)) >> 0});
+
+
+        newGrid[(numRows / 2) >> 0][(numCols / 4) >> 0].isStart  = true;
+        newGrid[(numRows / 2) >> 0][(numCols - (numCols / 4)) >> 0].isFinish  = true;
         setGrid(newGrid);
 
         document.addEventListener('mouseup', () => setMouseIsPressed(false))
@@ -125,8 +131,8 @@ const PathfindingVisualizer = () => {
     }
 
     const getInitialGrid = () => {
-        let numRows = Math.floor((window.innerHeight - 200) / 25);
-        let numCols = Math.floor(window.innerWidth / 25);
+        let numRows = Math.floor((window.innerHeight - 225) / 25);
+        let numCols = Math.floor((window.innerWidth - 75) / 25);
         const grid = []
     
         for (let row = 0; row < numRows; row++) {
