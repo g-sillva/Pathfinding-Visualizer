@@ -121,6 +121,7 @@ header {
     margin-top: 10px;
     background: rgba(0, 0, 0, 0.05);
     border-radius: 5px;
+    font-size: 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -138,6 +139,7 @@ header {
 .header-dropdown-content {
     position: absolute;
     margin-top: 10px;
+    font-size: 14px;
     left: 0;
     padding: 10px;
     background: #ffffff;

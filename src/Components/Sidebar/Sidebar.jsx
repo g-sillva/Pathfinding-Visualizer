@@ -14,7 +14,7 @@ const items = [
 const Sidebar = ({ onCloseClick }) => {
   return (
     <div className='sidebar'>
-        <i class="fa-solid fa-xmark" onClick={() => onCloseClick()}></i>
+        <i className="fa-solid fa-xmark" onClick={() => onCloseClick()}></i>
         <header className='sidebar-header'>
             <h2 className='sidebar-title'>Description</h2>
             <span className='sidebar-line'></span>
@@ -28,7 +28,7 @@ const Sidebar = ({ onCloseClick }) => {
             ))}
         </ul>
         <footer className='sidebar-footer'>
-            <a href="">
+            <a href="https://github.com/g-sillva" target='_blank'>
                 <i className="fa-brands fa-github"></i>
             </a>
             <p className='sidebar-footer-text'>Pathfinding visualizer</p>

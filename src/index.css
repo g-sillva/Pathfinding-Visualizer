@@ -10,6 +10,7 @@
 
 body {
     /* background: #2B3C52; */
+    overflow: hidden;
 }
 
 /* DARK THEME

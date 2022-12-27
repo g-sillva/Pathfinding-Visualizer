@@ -27,7 +27,7 @@ const Header = ({ onMainButtonClick, onResetGrid, onSelectInsert, isAnimationRun
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut accusamus itaque quibusdam iure. Repellendus aliquid, voluptas non vero ipsam explicabo.'
   });
 
-  const algoDropDownOptions = ['DIJKSTRA', 'BREADTH FIRST', 'TESTE 2', 'TESTE 3'];
+  const algoDropDownOptions = ['DIJKSTRA', 'DEPTH FIRST SEARCH', 'TESTE 2', 'TESTE 3'];
   const patternDropDownOptions = ['NONE', 'MAZE'];
   const insertDropDownOptions = ['WALL', 'START', 'FINISH'];
 
@@ -56,7 +56,7 @@ const Header = ({ onMainButtonClick, onResetGrid, onSelectInsert, isAnimationRun
           </span>
           <p className='themes-label'>Light</p>
         </div>
-        <i class="fa-regular fa-circle-question" onClick={() => onClickInfo()}></i>
+        <i className="fa-regular fa-circle-question" onClick={() => onClickInfo()}></i>
       </div>
 
       <div className='header-bottom'>

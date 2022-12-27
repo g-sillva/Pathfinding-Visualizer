@@ -1,13 +1,13 @@
-function breadthFirst(grid, startNode, finishNode) {
+function depthFirstSearch(grid, startNode, finishNode) {
     let visitedNodesInOrder = [];
-    let queue = [];
+    let stack = [];
     startNode.isVisited = true;
     visitedNodesInOrder.push(startNode);
 
-    queue.push(startNode);
+    stack.push(startNode);
 
-    while (queue.length > 0) {
-        let currentNode = queue.pop();
+    while (stack.length > 0) {
+        let currentNode = stack.pop();
         let unvisitedNeighbors = getUnvisitedNeighbors(currentNode, grid);
         visitedNodesInOrder.push(currentNode);
         
@@ -17,23 +17,22 @@ function breadthFirst(grid, startNode, finishNode) {
             neighbor.isVisited = true;
             neighbor.previousNode = currentNode;
             
-
             if (neighbor === finishNode) {
                 visitedNodesInOrder.push(neighbor);
                 return visitedNodesInOrder
             }
-            queue.push(neighbor);
+            stack.push(neighbor);
         }
     }
     return visitedNodesInOrder;
 }
 
-export const visualizeBreadthFirst = (grid, start_node_row, start_node_col, finish_node_row, finish_node_col) => {
+export const visualizeDepthFirstSearch = (grid, start_node_row, start_node_col, finish_node_row, finish_node_col) => {
     const startNode = grid[start_node_row][start_node_col];
     const finishNode = grid[finish_node_row][finish_node_col];
-    const visitedNodesInOrder = breadthFirst(grid, startNode, finishNode);
+    const visitedNodesInOrder = depthFirstSearch(grid, startNode, finishNode);
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-    animateBreadthFirst(visitedNodesInOrder, nodesInShortestPathOrder);
+    animateDepthFirstSearch(visitedNodesInOrder, nodesInShortestPathOrder);
 }
 
 function getUnvisitedNeighbors(node, grid) {
@@ -57,7 +56,7 @@ function getNodesInShortestPathOrder(finishNode) {
     return nodesInShortestPathOrder;
 }
 
-const animateBreadthFirst = (visitedNodesInOrder, nodesInShortestPathOrder) => {
+const animateDepthFirstSearch = (visitedNodesInOrder, nodesInShortestPathOrder) => {
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
         if (i === visitedNodesInOrder.length) {
             setTimeout(() => {

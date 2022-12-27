@@ -10,6 +10,7 @@
     height: 100vh;
     box-shadow: 3px 3px 10px 6px #0000000f;
     padding: 2rem;
+    animation: .5s open-sidebar-anim ease-in-out forwards;
 }
 
 .sidebar .fa-xmark {
@@ -72,6 +73,8 @@
     display: flex;
     align-items: center;
     margin: 8px 0;
+    position: relative;
+    bottom: 0;
 }
 
 .sidebar-item .square {
@@ -138,4 +141,13 @@
     margin-top: 10px;
     font-size: 14px;
     opacity: .6;
+}
+
+@keyframes open-sidebar-anim {
+    from {
+        right: -320px;
+    }
+    to {
+        right: 0;
+    }
 }
