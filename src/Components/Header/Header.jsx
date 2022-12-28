@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 
 import './Header.css';
 
-const Header = ({ onMainButtonClick, onResetGrid, onSelectInsert, onSelectAlgorithm, isAnimationRunning, onClickClear, onClickInfo }) => {
+const Header = ({ 
+    onMainButtonClick,
+    onResetGrid,
+    onSelectInsert,
+    onSelectAlgorithm,
+    onSelectPattern,
+    isAnimationRunning,
+    onClickClear,
+    onClickInfo 
+  }) => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [mainButtonClicked, setMainButtonClicked] = useState(false);
 
@@ -30,7 +39,7 @@ const Header = ({ onMainButtonClick, onResetGrid, onSelectInsert, onSelectAlgori
   const weightedAlgoDropOptions = ['DIJKSTRA'];
   const unweightedAlgoDropOptions = ['DEPTH FIRST SEARCH', 'BREADTH FIRST SEARCH'];
   const algoDropDownOptions = weightedAlgoDropOptions.concat(unweightedAlgoDropOptions);
-  const patternDropDownOptions = ['NONE', 'MAZE'];
+  const patternDropDownOptions = ['NONE', 'WALL MAZE'];
   const insertDropDownOptions = ['WALL', 'WEIGHT', 'START', 'FINISH'];
 
   const handleMainButtonClick = () => {
@@ -131,7 +140,10 @@ const Header = ({ onMainButtonClick, onResetGrid, onSelectInsert, onSelectAlgori
                   <div 
                   className='header-dropdown-item'
                   key={valIdx}
-                  onClick={(e) => setPatternDropDown({...pattermDropDown, selected: val, isDropDownOpen: false})}
+                  onClick={(e) => {
+                    setPatternDropDown({...pattermDropDown, selected: val, isDropDownOpen: false});
+                    onSelectPattern(val);
+                }}
                   >{val}</div>
                 ))}
               </div>

@@ -8,6 +8,7 @@ import './PathfindingVisualizer.css';
 import { visualizeDijkastra } from './Algorithms/weighted/dijkstra';
 import { visualizeDepthFirstSearch } from './Algorithms/unweighted/depth_first_search';
 import { visualizeBreadthFirstSearch } from './Algorithms/unweighted/breadth_first_search';
+import { visualizeRandomWallMaze } from './Patterns/random_wall_maze';
 
 const PathfindingVisualizer = () => {
     const [grid, setGrid] = useState([]);
@@ -116,11 +117,19 @@ const PathfindingVisualizer = () => {
         }
     }
 
+    const handlePatternSelect = (name) => {
+        if (name === 'WALL MAZE') {
+            handleClearGrid(grid);
+            setGrid(visualizeRandomWallMaze(grid));
+        }
+    }
+
     const handleClearGrid = (grid) => {
         const domGrid = document.getElementsByClassName("grid")[0].childNodes;
         for (let row = 0; row < grid.length; row++) {
             for (let col = 0; col < grid[row].length; col++) {
                 removeNodeClass(domGrid, row, col);
+                domGrid[row].childNodes[col].classList.remove('node-wall');
 
                 if (grid[row][col]) {
                     grid[row][col].isWall = false;
@@ -198,6 +207,7 @@ const PathfindingVisualizer = () => {
                 onSelectInsert={(type) => setInsertType(type)}
                 onClickClear={() => handleClearGrid(grid)}
                 onSelectAlgorithm={(unweightedList, name) => handleAlgorithmSelect(unweightedList, name)}
+                onSelectPattern={(name) => handlePatternSelect(name)}
                 isAnimationRunning={isVisualizationRunning}
                 onClickInfo={() => setIsSidebarOpen(!isSidebarOpen)}
                 >
