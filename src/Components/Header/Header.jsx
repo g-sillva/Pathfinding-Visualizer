@@ -134,10 +134,11 @@ const Header = ({
               <div className='header-dropdown-content'>
                 {algoDropDownOptions.map((val, valIdx) => (
                   <div 
-                  className='header-dropdown-item'
-                  key={valIdx}
-                  onClick={(e) => handleAlgorithmSelection(val)}
-                  >{val}</div>
+                    className='header-dropdown-item'
+                    key={valIdx}
+                    onClick={(e) => handleAlgorithmSelection(val)}
+                  >
+                    {val}</div>
                 ))}
               </div>
             }
@@ -152,7 +153,8 @@ const Header = ({
               className='input-question'
               onMouseEnter={() => setPatternDropDown({...patternDropDown, isDescOpen: true})}
               onMouseLeave={() => setPatternDropDown({...patternDropDown, isDescOpen: false})}
-            >?</span>
+            >
+              ?</span>
             </label>
 
             {patternDropDown.isDescOpen && <p className='input-question-description'>{patternDropDown.description}</p>}

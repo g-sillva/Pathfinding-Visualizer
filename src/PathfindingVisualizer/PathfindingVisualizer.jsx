@@ -9,6 +9,7 @@ import { visualizeDijkastra } from './Algorithms/weighted/dijkstra';
 import { visualizeDepthFirstSearch } from './Algorithms/unweighted/depth_first_search';
 import { visualizeBreadthFirstSearch } from './Algorithms/unweighted/breadth_first_search';
 import { visualizeRandomWallMaze } from './Patterns/random_wall_maze';
+import { visualizeRandomWeightedMaze } from './Patterns/random_weighted_maze';
 
 const PathfindingVisualizer = () => {
     const [grid, setGrid] = useState([]);
@@ -110,6 +111,8 @@ const PathfindingVisualizer = () => {
     const handlePatternSelect = (name) => {
         if (name === 'WALL MAZE') {
             setGrid(visualizeRandomWallMaze(grid));
+        } else if (name === 'WEIGHTED MAZE') {
+            setGrid(visualizeRandomWeightedMaze(grid));
         }
     }
 
