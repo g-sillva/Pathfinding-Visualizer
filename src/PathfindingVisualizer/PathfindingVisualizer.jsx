@@ -101,25 +101,14 @@ const PathfindingVisualizer = () => {
         }
     }
 
-    const handleAlgorithmSelect = (unweightedList, name) => {
-        if (unweightedList.includes(name)) {
-            const domGrid = document.getElementsByClassName("grid")[0].childNodes;
-
-            for (let row = 0; row < grid.length; row++) {
-                for (let col = 0; col < grid[row].length; col++) {
-                    removeNodeClass(domGrid, row, col);
-                    grid[row][col].isWeight = false;
-                }
-            }
-            setGrid(getInitialGrid());
-            setIsVisualizationRunning(false);
-            clearAnimations();
+    const handleAlgorithmSelect = (grid, unweightedList, name) => {
+        if (unweightedList.includes(name) && gridContainsWeight(grid)) {
+            handleClearGrid(grid)
         }
     }
 
     const handlePatternSelect = (name) => {
         if (name === 'WALL MAZE') {
-            handleClearGrid(grid);
             setGrid(visualizeRandomWallMaze(grid));
         }
     }
@@ -128,8 +117,7 @@ const PathfindingVisualizer = () => {
         const domGrid = document.getElementsByClassName("grid")[0].childNodes;
         for (let row = 0; row < grid.length; row++) {
             for (let col = 0; col < grid[row].length; col++) {
-                removeNodeClass(domGrid, row, col);
-                domGrid[row].childNodes[col].classList.remove('node-wall');
+                removeAllNodeClasses(domGrid, row, col);
 
                 if (grid[row][col]) {
                     grid[row][col].isWall = false;
@@ -140,6 +128,15 @@ const PathfindingVisualizer = () => {
         setGrid(getInitialGrid());
         setIsVisualizationRunning(false);
         clearAnimations();
+    }
+
+    const gridContainsWeight = (grid) => {
+        for (let row = 0; row < grid.length; row++) {
+            for (let col = 0; col < grid[row].length; col++) {
+                if (grid[row][col].isWeight) return true;
+            }
+        }
+        return false;
     }
 
     const handleResetGrid = (grid) => {
@@ -167,6 +164,16 @@ const PathfindingVisualizer = () => {
         if (domNode) {
             domNode.classList.remove('node-visited');
             domNode.classList.remove('node-shortest-path');
+        }
+    }
+
+    const removeAllNodeClasses = (domGrid, row, col) => {
+        let domNode = domGrid[row].childNodes[col];
+        if (domNode) {
+            domNode.classList.remove('node-visited');
+            domNode.classList.remove('node-shortest-path');
+            domNode.classList.remove('node-wall');
+            domNode.classList.remove('node-weight');
         }
     }
 
@@ -206,7 +213,7 @@ const PathfindingVisualizer = () => {
                 onResetGrid={() => handleResetGrid(grid, 0, 0)}
                 onSelectInsert={(type) => setInsertType(type)}
                 onClickClear={() => handleClearGrid(grid)}
-                onSelectAlgorithm={(unweightedList, name) => handleAlgorithmSelect(unweightedList, name)}
+                onSelectAlgorithm={(unweightedList, name) => handleAlgorithmSelect(grid, unweightedList, name)}
                 onSelectPattern={(name) => handlePatternSelect(name)}
                 isAnimationRunning={isVisualizationRunning}
                 onClickInfo={() => setIsSidebarOpen(!isSidebarOpen)}

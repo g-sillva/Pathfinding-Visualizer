@@ -22,7 +22,7 @@ const Header = ({
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut accusamus itaque quibusdam iure. Repellendus aliquid, voluptas non vero ipsam explicabo.'
   });
 
-  const [pattermDropDown, setPatternDropDown] = useState({
+  const [patternDropDown, setPatternDropDown] = useState({
     isDropDownOpen: false,
     isDescOpen: false,
     selected: 'NONE',
@@ -39,7 +39,11 @@ const Header = ({
   const weightedAlgoDropOptions = ['DIJKSTRA'];
   const unweightedAlgoDropOptions = ['DEPTH FIRST SEARCH', 'BREADTH FIRST SEARCH'];
   const algoDropDownOptions = weightedAlgoDropOptions.concat(unweightedAlgoDropOptions);
-  const patternDropDownOptions = ['NONE', 'WALL MAZE'];
+
+  const weightedPatternDropOptions = ['WEIGHTED MAZE'];
+  const unweightedPatternDropOptions = ['NONE', 'WALL MAZE'];
+  const patternDropDownOptions = unweightedPatternDropOptions.concat(weightedPatternDropOptions);
+
   const insertDropDownOptions = ['WALL', 'WEIGHT', 'START', 'FINISH'];
 
   const handleMainButtonClick = () => {
@@ -53,7 +57,40 @@ const Header = ({
 
   const handleClearClick = () => {
     setMainButtonClicked(false);
+    setPatternDropDown({...patternDropDown, selected: unweightedPatternDropOptions[0], isDropDownOpen: false});
     onClickClear();
+  }
+
+  const handleAlgorithmSelection = (val) => {
+    setAlgorithmDropDown({...algorithmDropDown, selected: val, isDropDownOpen: false});
+    setInsertDropDown({...insertDropDown, selected: insertDropDownOptions[0], isDropDownOpen: false});
+    setMainButtonClicked(false);
+
+    if (!weightedAlgoDropOptions.includes(val) &&
+        weightedPatternDropOptions.includes(patternDropDown.selected)) {
+        handleClearClick();
+    }
+
+    onSelectAlgorithm(unweightedAlgoDropOptions, val);
+    onSelectInsert('WALL');
+  }
+
+  const handlePatternSelection = (val) => {
+    if (weightedPatternDropOptions.includes(val) &&
+        !weightedAlgoDropOptions.includes(algorithmDropDown.selected)) {
+          setAlgorithmDropDown({...algorithmDropDown, selected: weightedAlgoDropOptions[0], isDropDownOpen: false});
+    }
+
+    setPatternDropDown({...patternDropDown, selected: val, isDropDownOpen: false});
+    onClickClear();
+    setMainButtonClicked(false);
+    onSelectPattern(val);
+  }
+
+  const handleInsertSelection = (val) => {
+    if (unweightedAlgoDropOptions.includes(algorithmDropDown.selected) && val === 'WEIGHT') return;
+    setInsertDropDown({...insertDropDown, selected: val, isDropDownOpen: false});
+    onSelectInsert(val);
   }
 
   return (
@@ -99,13 +136,7 @@ const Header = ({
                   <div 
                   className='header-dropdown-item'
                   key={valIdx}
-                  onClick={(e) => {
-                    setAlgorithmDropDown({...algorithmDropDown, selected: val, isDropDownOpen: false});
-                    setInsertDropDown({...insertDropDown, selected: 'WALL', isDropDownOpen: false});
-                    onSelectAlgorithm(unweightedAlgoDropOptions, val);
-                    setMainButtonClicked(false);
-                    onSelectInsert('WALL');
-                  }}
+                  onClick={(e) => handleAlgorithmSelection(val)}
                   >{val}</div>
                 ))}
               </div>
@@ -119,31 +150,28 @@ const Header = ({
               PATTERN
             <span 
               className='input-question'
-              onMouseEnter={() => setPatternDropDown({...pattermDropDown, isDescOpen: true})}
-              onMouseLeave={() => setPatternDropDown({...pattermDropDown, isDescOpen: false})}
+              onMouseEnter={() => setPatternDropDown({...patternDropDown, isDescOpen: true})}
+              onMouseLeave={() => setPatternDropDown({...patternDropDown, isDescOpen: false})}
             >?</span>
             </label>
 
-            {pattermDropDown.isDescOpen && <p className='input-question-description'>{pattermDropDown.description}</p>}
+            {patternDropDown.isDescOpen && <p className='input-question-description'>{patternDropDown.description}</p>}
 
             <div className='header-dropdown-btn'
-                onClick={() => setPatternDropDown({...pattermDropDown, isDropDownOpen: !pattermDropDown.isDropDownOpen})}
+                onClick={() => setPatternDropDown({...patternDropDown, isDropDownOpen: !patternDropDown.isDropDownOpen})}
                 >
-              {pattermDropDown.selected}
-              <i className={`fa-solid fa-angle-down ${pattermDropDown.isDropDownOpen && 'DropDown-icon-rotate'}`}
+              {patternDropDown.selected}
+              <i className={`fa-solid fa-angle-down ${patternDropDown.isDropDownOpen && 'DropDown-icon-rotate'}`}
               ></i>
             </div>
             {
-            pattermDropDown.isDropDownOpen && 
+            patternDropDown.isDropDownOpen && 
               <div className='header-dropdown-content'>
                 {patternDropDownOptions.map((val, valIdx) => (
                   <div 
                   className='header-dropdown-item'
                   key={valIdx}
-                  onClick={(e) => {
-                    setPatternDropDown({...pattermDropDown, selected: val, isDropDownOpen: false});
-                    onSelectPattern(val);
-                }}
+                  onClick={(e) => handlePatternSelection(val)}
                   >{val}</div>
                 ))}
               </div>
@@ -187,11 +215,7 @@ const Header = ({
                   className={`header-dropdown-item 
                   ${(unweightedAlgoDropOptions.includes(algorithmDropDown.selected) && val === 'WEIGHT') && 'dropdown-item-deactivate'}`}
                   key={valIdx}
-                  onClick={(e) => {
-                    if (unweightedAlgoDropOptions.includes(algorithmDropDown.selected) && val === 'WEIGHT') return;
-                    setInsertDropDown({...insertDropDown, selected: val, isDropDownOpen: false});
-                    onSelectInsert(val);
-                  }}
+                  onClick={(e) => handleInsertSelection(val)}
                   >{val}</div>
                 ))}
               </div>

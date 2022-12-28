@@ -23,7 +23,6 @@ function updateUnvisitedNeighbors(node, grid) {
     for (let n of unvisitedNeighbors) {
         if (n.isWeight) {
             n.distance = node.distance + 10;
-            console.log(n);
         } else {
             n.distance = node.distance + 1;
         }
