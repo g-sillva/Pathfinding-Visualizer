@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Dropdown from './Dropdown/Dropdown';
 
 import './Header.css';
 
@@ -57,13 +58,14 @@ const Header = ({
 
   const handleClearClick = () => {
     setMainButtonClicked(false);
-    setPatternDropDown({...patternDropDown, selected: unweightedPatternDropOptions[0], isDropDownOpen: false});
+    setPatternDropDown({...patternDropDown, selected: unweightedPatternDropOptions[0]});
+    closeAllDropdowns();  
     onClickClear();
   }
 
   const handleAlgorithmSelection = (val) => {
-    setAlgorithmDropDown({...algorithmDropDown, selected: val, isDropDownOpen: false});
-    setInsertDropDown({...insertDropDown, selected: insertDropDownOptions[0], isDropDownOpen: false});
+    setAlgorithmDropDown({...algorithmDropDown, selected: val});
+    setInsertDropDown({...insertDropDown, selected: insertDropDownOptions[0]});
     setMainButtonClicked(false);
 
     if (!weightedAlgoDropOptions.includes(val) &&
@@ -71,6 +73,7 @@ const Header = ({
         handleClearClick();
     }
 
+    closeAllDropdowns();
     onSelectAlgorithm(unweightedAlgoDropOptions, val);
     onSelectInsert('WALL');
   }
@@ -78,10 +81,10 @@ const Header = ({
   const handlePatternSelection = (val) => {
     if (weightedPatternDropOptions.includes(val) &&
         !weightedAlgoDropOptions.includes(algorithmDropDown.selected)) {
-          setAlgorithmDropDown({...algorithmDropDown, selected: weightedAlgoDropOptions[0], isDropDownOpen: false});
+          setAlgorithmDropDown({...algorithmDropDown, selected: weightedAlgoDropOptions[0]});
     }
 
-    setPatternDropDown({...patternDropDown, selected: val, isDropDownOpen: false});
+    closeAllDropdowns();
     onClickClear();
     setMainButtonClicked(false);
     onSelectPattern(val);
@@ -89,8 +92,14 @@ const Header = ({
 
   const handleInsertSelection = (val) => {
     if (unweightedAlgoDropOptions.includes(algorithmDropDown.selected) && val === 'WEIGHT') return;
-    setInsertDropDown({...insertDropDown, selected: val, isDropDownOpen: false});
+    closeAllDropdowns();
     onSelectInsert(val);
+  }
+
+  const closeAllDropdowns = () => {
+    setAlgorithmDropDown({...algorithmDropDown, isDropDownOpen: false});
+    setPatternDropDown({...patternDropDown, isDropDownOpen: false});
+    setInsertDropDown({...insertDropDown, isDropDownOpen: false});
   }
 
   return (
@@ -110,128 +119,55 @@ const Header = ({
       <div className='header-bottom'>
         <div className='header-input-container'>
 
-          <div className='header-dropdown'>
-            <label htmlFor="algorithm">
-              ALGORITHM
-            <span 
-              className='input-question'
-              onMouseEnter={() => setAlgorithmDropDown({...algorithmDropDown, isDescOpen: true})}
-              onMouseLeave={() => setAlgorithmDropDown({...algorithmDropDown, isDescOpen: false})}
-            >?</span>
-            </label>
+          <Dropdown
+            name='ALGORITHM'
+            dropDownOptions={algoDropDownOptions}
+            onMouseEnterQuestion={() => setAlgorithmDropDown({...algorithmDropDown, isDescOpen: true})}
+            onMouseLeaveQuestion={() => setAlgorithmDropDown({...algorithmDropDown, isDescOpen: false})}
+            onDropdownClick={() => setAlgorithmDropDown({...algorithmDropDown, isDropDownOpen: !algorithmDropDown.isDropDownOpen})}
+            onSelectOption={(val) => handleAlgorithmSelection(val)}
+            isDescOpen={algorithmDropDown.isDescOpen}
+            isDropDownOpen={algorithmDropDown.isDropDownOpen}
+            description={algorithmDropDown.description}
+            selected={algorithmDropDown.selected}
+          ></Dropdown>
 
-            {algorithmDropDown.isDescOpen && <p className='input-question-description'>{algorithmDropDown.description}</p>}
+          <Dropdown
+            name='PATTERN'
+            dropDownOptions={patternDropDownOptions}
+            onMouseEnterQuestion={() => setPatternDropDown({...patternDropDown, isDescOpen: true})}
+            onMouseLeaveQuestion={() => setPatternDropDown({...patternDropDown, isDescOpen: false})}
+            onDropdownClick={() => setPatternDropDown({...patternDropDown, isDropDownOpen: !patternDropDown.isDropDownOpen})}
+            onSelectOption={(val) => handlePatternSelection(val)}
+            isDescOpen={patternDropDown.isDescOpen}
+            isDropDownOpen={patternDropDown.isDropDownOpen}
+            description={patternDropDown.description}
+            selected={patternDropDown.selected}
+          ></Dropdown>
 
-            <div className='header-dropdown-btn'
-                onClick={() => setAlgorithmDropDown({...algorithmDropDown, isDropDownOpen: !algorithmDropDown.isDropDownOpen})}
-                >
-              {algorithmDropDown.selected}
-              <i className={`fa-solid fa-angle-down ${algorithmDropDown.isDropDownOpen && 'dropdown-icon-rotate'}`}
-              ></i>
-            </div>
-            {
-            algorithmDropDown.isDropDownOpen && 
-              <div className='header-dropdown-content'>
-                {algoDropDownOptions.map((val, valIdx) => (
-                  <div 
-                    className='header-dropdown-item'
-                    key={valIdx}
-                    onClick={(e) => handleAlgorithmSelection(val)}
-                  >
-                    {val}</div>
-                ))}
-              </div>
-            }
+          <div className='header-action-btn' onClick={() => handleMainButtonClick()}>
+              <p>{mainButtonClicked ? 'RESTART' : 'START'}</p>
+              <i className={`fa-solid ${mainButtonClicked ? 'fa-rotate-left' : 'fa-play'}`}></i>
           </div>
 
-          {/* PATTERN DROPDOWN */}
-
-          <div className='header-dropdown'>
-            <label htmlFor="algorithm">
-              PATTERN
-            <span 
-              className='input-question'
-              onMouseEnter={() => setPatternDropDown({...patternDropDown, isDescOpen: true})}
-              onMouseLeave={() => setPatternDropDown({...patternDropDown, isDescOpen: false})}
-            >
-              ?</span>
-            </label>
-
-            {patternDropDown.isDescOpen && <p className='input-question-description'>{patternDropDown.description}</p>}
-
-            <div className='header-dropdown-btn'
-                onClick={() => setPatternDropDown({...patternDropDown, isDropDownOpen: !patternDropDown.isDropDownOpen})}
-                >
-              {patternDropDown.selected}
-              <i className={`fa-solid fa-angle-down ${patternDropDown.isDropDownOpen && 'DropDown-icon-rotate'}`}
-              ></i>
-            </div>
-            {
-            patternDropDown.isDropDownOpen && 
-              <div className='header-dropdown-content'>
-                {patternDropDownOptions.map((val, valIdx) => (
-                  <div 
-                  className='header-dropdown-item'
-                  key={valIdx}
-                  onClick={(e) => handlePatternSelection(val)}
-                  >{val}</div>
-                ))}
-              </div>
-            }
-          </div>
-
-        {/* ACTION BUTTON */}
-
-        <div className='header-action-btn'
-             onClick={() => handleMainButtonClick()}>
-            <p>{mainButtonClicked ? 'RESTART' : 'START'}</p>
-            <i className={`fa-solid ${mainButtonClicked ? 'fa-rotate-left' : 'fa-play'}`}></i>
-        </div>
-
-          {/* INSERT DROPDOWN */}
-
-          <div className='header-dropdown'>
-            <label htmlFor="algorithm">
-              INSERT ON CLICK
-            <span 
-              className='input-question'
-              onMouseEnter={() => setInsertDropDown({...insertDropDown, isDescOpen: true})}
-              onMouseLeave={() => setInsertDropDown({...insertDropDown, isDescOpen: false})}
-            >?</span>
-            </label>
-
-            {insertDropDown.isDescOpen && <p className='input-question-description'>{insertDropDown.description}</p>}
-
-            <div className='header-dropdown-btn'
-                onClick={() => setInsertDropDown({...insertDropDown, isDropDownOpen: !insertDropDown.isDropDownOpen})}
-                >
-              {insertDropDown.selected}
-              <i className={`fa-solid fa-angle-down ${insertDropDown.isDropDownOpen && 'DropDown-icon-rotate'}`}
-              ></i>
-            </div>
-            {
-            insertDropDown.isDropDownOpen && 
-              <div className='header-dropdown-content'>
-                {insertDropDownOptions.map((val, valIdx) => (
-                  <div 
-                  className={`header-dropdown-item 
-                  ${(unweightedAlgoDropOptions.includes(algorithmDropDown.selected) && val === 'WEIGHT') && 'dropdown-item-deactivate'}`}
-                  key={valIdx}
-                  onClick={(e) => handleInsertSelection(val)}
-                  >{val}</div>
-                ))}
-              </div>
-            }
-          </div>
-
-          {/* CLEAR DROPDOWN */}
+          <Dropdown
+            dropdwon_id='insert_dropdown'
+            name='INSERT ON CLICK'
+            dropDownOptions={insertDropDownOptions}
+            onMouseEnterQuestion={() => setInsertDropDown({...insertDropDown, isDescOpen: true})}
+            onMouseLeaveQuestion={() => setInsertDropDown({...insertDropDown, isDescOpen: false})}
+            onDropdownClick={() => setInsertDropDown({...insertDropDown, isDropDownOpen: !insertDropDown.isDropDownOpen})}
+            onSelectOption={(val) => handleInsertSelection(val)}
+            isDescOpen={insertDropDown.isDescOpen}
+            isDropDownOpen={insertDropDown.isDropDownOpen}
+            description={insertDropDown.description}
+            selected={insertDropDown.selected}
+            isWeightDeactivate={unweightedAlgoDropOptions.includes(algorithmDropDown.selected)}
+          ></Dropdown>
 
           <div className='header-dropdown-clear'>
-            <p onClick={() => handleClearClick()}>
-              CLEAR
-            </p>
+            <p onClick={() => handleClearClick()}>CLEAR</p>
           </div>
-
 
         </div>
       </div>
