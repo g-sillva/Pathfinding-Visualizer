@@ -20,6 +20,8 @@ const Header = ({
     isDropDownOpen: false,
     isDescOpen: false,
     selected: 'DIJKSTRA',
+    weightedOptions: ['DIJKSTRA'],
+    unweightedOptions: ['DEPTH FIRST SEARCH', 'BREADTH FIRST SEARCH'],
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut accusamus itaque quibusdam iure. Repellendus aliquid, voluptas non vero ipsam explicabo.'
   });
 
@@ -27,6 +29,8 @@ const Header = ({
     isDropDownOpen: false,
     isDescOpen: false,
     selected: 'NONE',
+    weightedOptions: ['WEIGHTED MAZE'],
+    unweightedOptions: ['NONE', 'WALL MAZE'],
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut accusamus itaque quibusdam iure. Repellendus aliquid, voluptas non vero ipsam explicabo.'
   });
 
@@ -34,18 +38,9 @@ const Header = ({
     isDropDownOpen: false,
     isDescOpen: false,
     selected: 'WALL',
+    insertOptions: ['WALL', 'WEIGHT', 'START', 'FINISH'],
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut accusamus itaque quibusdam iure. Repellendus aliquid, voluptas non vero ipsam explicabo.'
   });
-
-  const weightedAlgoDropOptions = ['DIJKSTRA'];
-  const unweightedAlgoDropOptions = ['DEPTH FIRST SEARCH', 'BREADTH FIRST SEARCH'];
-  const algoDropDownOptions = weightedAlgoDropOptions.concat(unweightedAlgoDropOptions);
-
-  const weightedPatternDropOptions = ['WEIGHTED MAZE'];
-  const unweightedPatternDropOptions = ['NONE', 'WALL MAZE'];
-  const patternDropDownOptions = unweightedPatternDropOptions.concat(weightedPatternDropOptions);
-
-  const insertDropDownOptions = ['WALL', 'WEIGHT', 'START', 'FINISH'];
 
   const handleMainButtonClick = () => {
     if (!mainButtonClicked) {
@@ -59,7 +54,7 @@ const Header = ({
   const handleClearClick = () => {
     setMainButtonClicked(false);
 
-    setPatternDropDown({...patternDropDown, selected: unweightedPatternDropOptions[0], isDropDownOpen: false});
+    setPatternDropDown({...patternDropDown, selected: patternDropDown.unweightedOptions[0], isDropDownOpen: false});
     setAlgorithmDropDown({...algorithmDropDown, isDropDownOpen: false});
     setInsertDropDown({...insertDropDown, isDropDownOpen: false});
 
@@ -68,27 +63,27 @@ const Header = ({
 
   const handleAlgorithmSelection = (val) => {
     setAlgorithmDropDown({...algorithmDropDown, selected: val, isDropDownOpen: false});
-    setInsertDropDown({...insertDropDown, selected: insertDropDownOptions[0], isDropDownOpen: false});
+    setInsertDropDown({...insertDropDown, selected: insertDropDown.insertOptions[0], isDropDownOpen: false});
     setPatternDropDown({...patternDropDown, isDropDownOpen: false});
 
     setMainButtonClicked(false);
 
-    if (!weightedAlgoDropOptions.includes(val) &&
-        weightedPatternDropOptions.includes(patternDropDown.selected)) {
+    if (!algorithmDropDown.weightedOptions.includes(val) &&
+        patternDropDown.weightedOptions.includes(patternDropDown.selected)) {
         handleClearClick();
     }
 
-    onSelectAlgorithm(unweightedAlgoDropOptions, val);
+    onSelectAlgorithm(algorithmDropDown.unweightedOptions, val);
     onSelectInsert('WALL');
   }
 
   const handlePatternSelection = (val) => {
-    if (weightedPatternDropOptions.includes(val) &&
-        !weightedAlgoDropOptions.includes(algorithmDropDown.selected)) {
-          setAlgorithmDropDown({...algorithmDropDown, selected: weightedAlgoDropOptions[0], isDropDownOpen: false});
+    if (patternDropDown.weightedOptions.includes(val) &&
+        !algorithmDropDown.weightedOptions.includes(algorithmDropDown.selected)) {
+          setAlgorithmDropDown({...algorithmDropDown, selected: algorithmDropDown.weightedOptions[0], isDropDownOpen: false});
     }
 
-    setPatternDropDown({...patternDropDown, isDropDownOpen: false});
+    setPatternDropDown({...patternDropDown, selected: val, isDropDownOpen: false});
     setInsertDropDown({...insertDropDown, isDropDownOpen: false});
 
     onClickClear();
@@ -97,7 +92,7 @@ const Header = ({
   }
 
   const handleInsertSelection = (val) => {
-    if (unweightedAlgoDropOptions.includes(algorithmDropDown.selected) && val === 'WEIGHT') return;
+    if (algorithmDropDown.unweightedOptions.includes(algorithmDropDown.selected) && val === 'WEIGHT') return;
     setAlgorithmDropDown({...algorithmDropDown, isDropDownOpen: false});
     setInsertDropDown({...insertDropDown, isDropDownOpen: false});
     setPatternDropDown({...patternDropDown, isDropDownOpen: false});
@@ -123,7 +118,8 @@ const Header = ({
 
           <Dropdown
             name='ALGORITHM'
-            dropDownOptions={algoDropDownOptions}
+            weightedOptions={algorithmDropDown.weightedOptions}
+            unweightedOptions={algorithmDropDown.unweightedOptions}
             onMouseEnterQuestion={() => setAlgorithmDropDown({...algorithmDropDown, isDescOpen: true})}
             onMouseLeaveQuestion={() => setAlgorithmDropDown({...algorithmDropDown, isDescOpen: false})}
             onDropdownClick={() => setAlgorithmDropDown({...algorithmDropDown, isDropDownOpen: !algorithmDropDown.isDropDownOpen})}
@@ -136,7 +132,8 @@ const Header = ({
 
           <Dropdown
             name='PATTERN'
-            dropDownOptions={patternDropDownOptions}
+            weightedOptions={patternDropDown.weightedOptions}
+            unweightedOptions={patternDropDown.unweightedOptions}
             onMouseEnterQuestion={() => setPatternDropDown({...patternDropDown, isDescOpen: true})}
             onMouseLeaveQuestion={() => setPatternDropDown({...patternDropDown, isDescOpen: false})}
             onDropdownClick={() => setPatternDropDown({...patternDropDown, isDropDownOpen: !patternDropDown.isDropDownOpen})}
@@ -155,7 +152,7 @@ const Header = ({
           <Dropdown
             dropdwon_id='insert_dropdown'
             name='INSERT ON CLICK'
-            dropDownOptions={insertDropDownOptions}
+            dropDownOptions={insertDropDown.insertOptions}
             onMouseEnterQuestion={() => setInsertDropDown({...insertDropDown, isDescOpen: true})}
             onMouseLeaveQuestion={() => setInsertDropDown({...insertDropDown, isDescOpen: false})}
             onDropdownClick={() => setInsertDropDown({...insertDropDown, isDropDownOpen: !insertDropDown.isDropDownOpen})}
@@ -164,7 +161,7 @@ const Header = ({
             isDropDownOpen={insertDropDown.isDropDownOpen}
             description={insertDropDown.description}
             selected={insertDropDown.selected}
-            isWeightDeactivate={unweightedAlgoDropOptions.includes(algorithmDropDown.selected)}
+            isWeightDeactivate={algorithmDropDown.unweightedOptions.includes(algorithmDropDown.selected)}
           ></Dropdown>
 
           <div className='header-dropdown-clear'>

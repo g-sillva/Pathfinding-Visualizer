@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Dropdown.css';
 
-const Dropdown = ({ name, dropDownOptions, onMouseEnterQuestion, onMouseLeaveQuestion, onDropdownClick, onSelectOption, isDescOpen, isDropDownOpen, description, selected, isWeightDeactivate = false }) => {
+const Dropdown = ({ name, weightedOptions, unweightedOptions, dropDownOptions, onMouseEnterQuestion, onMouseLeaveQuestion, onDropdownClick, onSelectOption, isDescOpen, isDropDownOpen, description, selected, isWeightDeactivate = false }) => {
   return (
     <div className='header-dropdown'>
         <div className='input'>
@@ -24,14 +24,39 @@ const Dropdown = ({ name, dropDownOptions, onMouseEnterQuestion, onMouseLeaveQue
 
         {isDropDownOpen && 
         <div className='header-dropdown-content'>
-            {dropDownOptions.map((val, valIdx) => (
-            <div 
-                className={`header-dropdown-item ${isWeightDeactivate && val === 'WEIGHT' && 'dropdown-item-deactivate'}`}
-                key={valIdx}
-                onClick={(e) => onSelectOption(val)}
-            >
-                {val}</div>
-            ))}
+            {dropDownOptions ?
+                <>
+                        {dropDownOptions.map((val, valIdx) => (
+                            <div 
+                                className={`header-dropdown-item ${isWeightDeactivate && val === 'WEIGHT' && 'dropdown-item-deactivate'}`}
+                                key={valIdx}
+                                onClick={(e) => onSelectOption(val)}
+                                >
+                            {val}</div>
+                    ))}
+                </>
+            : 
+            <>
+                <p className='dropdown-content-title'>WEIGHTED</p>
+                {weightedOptions.map((val, valIdx) => (
+                <div 
+                    className={`header-dropdown-item ${isWeightDeactivate && val === 'WEIGHT' && 'dropdown-item-deactivate'}`}
+                    key={valIdx}
+                    onClick={(e) => onSelectOption(val)}
+                >
+                    {val}</div>
+                ))}
+                <p className='dropdown-content-title'>UNWEIGHTED</p>
+                {unweightedOptions.map((val, valIdx) => (
+                <div 
+                    className={`header-dropdown-item ${isWeightDeactivate && val === 'WEIGHT' && 'dropdown-item-deactivate'}`}
+                    key={valIdx}
+                    onClick={(e) => onSelectOption(val)}
+                >
+                    {val}</div>
+                ))}
+            </>
+            }
         </div>
         }
   </div>
