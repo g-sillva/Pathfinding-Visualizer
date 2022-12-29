@@ -58,14 +58,19 @@ const Header = ({
 
   const handleClearClick = () => {
     setMainButtonClicked(false);
-    setPatternDropDown({...patternDropDown, selected: unweightedPatternDropOptions[0]});
-    closeAllDropdowns();  
+
+    setPatternDropDown({...patternDropDown, selected: unweightedPatternDropOptions[0], isDropDownOpen: false});
+    setAlgorithmDropDown({...algorithmDropDown, isDropDownOpen: false});
+    setInsertDropDown({...insertDropDown, isDropDownOpen: false});
+
     onClickClear();
   }
 
   const handleAlgorithmSelection = (val) => {
-    setAlgorithmDropDown({...algorithmDropDown, selected: val});
-    setInsertDropDown({...insertDropDown, selected: insertDropDownOptions[0]});
+    setAlgorithmDropDown({...algorithmDropDown, selected: val, isDropDownOpen: false});
+    setInsertDropDown({...insertDropDown, selected: insertDropDownOptions[0], isDropDownOpen: false});
+    setPatternDropDown({...patternDropDown, isDropDownOpen: false});
+
     setMainButtonClicked(false);
 
     if (!weightedAlgoDropOptions.includes(val) &&
@@ -73,7 +78,6 @@ const Header = ({
         handleClearClick();
     }
 
-    closeAllDropdowns();
     onSelectAlgorithm(unweightedAlgoDropOptions, val);
     onSelectInsert('WALL');
   }
@@ -81,10 +85,12 @@ const Header = ({
   const handlePatternSelection = (val) => {
     if (weightedPatternDropOptions.includes(val) &&
         !weightedAlgoDropOptions.includes(algorithmDropDown.selected)) {
-          setAlgorithmDropDown({...algorithmDropDown, selected: weightedAlgoDropOptions[0]});
+          setAlgorithmDropDown({...algorithmDropDown, selected: weightedAlgoDropOptions[0], isDropDownOpen: false});
     }
 
-    closeAllDropdowns();
+    setPatternDropDown({...patternDropDown, isDropDownOpen: false});
+    setInsertDropDown({...insertDropDown, isDropDownOpen: false});
+
     onClickClear();
     setMainButtonClicked(false);
     onSelectPattern(val);
@@ -92,14 +98,10 @@ const Header = ({
 
   const handleInsertSelection = (val) => {
     if (unweightedAlgoDropOptions.includes(algorithmDropDown.selected) && val === 'WEIGHT') return;
-    closeAllDropdowns();
-    onSelectInsert(val);
-  }
-
-  const closeAllDropdowns = () => {
     setAlgorithmDropDown({...algorithmDropDown, isDropDownOpen: false});
-    setPatternDropDown({...patternDropDown, isDropDownOpen: false});
     setInsertDropDown({...insertDropDown, isDropDownOpen: false});
+    setPatternDropDown({...patternDropDown, isDropDownOpen: false});
+    onSelectInsert(val);
   }
 
   return (

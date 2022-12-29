@@ -71,19 +71,30 @@ const PathfindingVisualizer = () => {
 
     const handleMouseEnter = (grid, row, col) => {
         if (isVisualizationRunning) return;
-        if (mouseIsPressed) {
-            const newGrid = grid.slice();
-            let node = newGrid[row][col];
-            if (node.isStart || node.isFinish) return;
 
+        const domGrid = document.getElementsByClassName("grid")[0].childNodes;
+        let domNode = domGrid[row].childNodes[col];
+        let node = grid[row][col];
+
+        if (mouseIsPressed) {
+            if (node.isStart || node.isFinish) return;
             if (insertType === 'WALL') {
+                if (domNode.classList.contains('node-wall')) {
+                    domNode.classList.remove('node-wall');
+                } else {
+                    domNode.classList.add('node-wall');
+                }
                 node.isWall = !node.isWall;
                 node.isWeight = false;
             } else if (insertType === 'WEIGHT') {
+                if (domNode.classList.contains('node-weight')) {
+                    domNode.classList.remove('node-weight');
+                } else {
+                    domNode.classList.add('node-weight');
+                }
                 node.isWall = false;
                 node.isWeight = !node.isWeight;
             }
-            setGrid(newGrid)
         }
     }
 
