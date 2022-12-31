@@ -6,6 +6,7 @@ import Sidebar from './../Components/Sidebar/Sidebar';
 
 import './PathfindingVisualizer.css';
 import { visualizeDijkastra } from './Algorithms/weighted/dijkstra';
+import { visualizeAStar } from './Algorithms/weighted/astar';
 import { visualizeDepthFirstSearch } from './Algorithms/unweighted/depth_first_search';
 import { visualizeBreadthFirstSearch } from './Algorithms/unweighted/breadth_first_search';
 import { visualizeRandomWallMaze } from './Patterns/random_wall_maze';
@@ -106,6 +107,8 @@ const PathfindingVisualizer = () => {
         setIsVisualizationRunning(true);
         if (algorithm === 'DIJKSTRA') {
             visualizeDijkastra(grid, startNodePos.row, startNodePos.col, finishNodePos.row, finishNodePos.col);
+        } else if (algorithm === 'A-STAR (A*)') {
+            visualizeAStar(grid, startNodePos.row, startNodePos.col, finishNodePos.row, finishNodePos.col);
         } else if (algorithm === 'DEPTH FIRST SEARCH') {
             visualizeDepthFirstSearch(grid, startNodePos.row, startNodePos.col, finishNodePos.row, finishNodePos.col);
         } else if (algorithm === 'BREADTH FIRST SEARCH') {
@@ -216,6 +219,9 @@ const PathfindingVisualizer = () => {
             isVisited: false,
             isWall: grid.length === 0 ? false : grid[row][col].isWall,
             isWeight: grid.length === 0 ? false : grid[row][col].isWeight,
+            f: 0,
+            g: 0,
+            h: 0,
             previousNode: null
         }
     }

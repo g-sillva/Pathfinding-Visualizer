@@ -20,7 +20,7 @@ const Header = ({
     isDropDownOpen: false,
     isDescOpen: false,
     selected: 'DIJKSTRA',
-    weightedOptions: ['DIJKSTRA'],
+    weightedOptions: ['DIJKSTRA', 'A-STAR (A*)'],
     unweightedOptions: ['DEPTH FIRST SEARCH', 'BREADTH FIRST SEARCH'],
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut accusamus itaque quibusdam iure. Repellendus aliquid, voluptas non vero ipsam explicabo.'
   });
