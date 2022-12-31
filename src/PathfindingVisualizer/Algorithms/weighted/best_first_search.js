@@ -1,46 +1,44 @@
-function aStar(grid, startNode, finishNode) {
-    startNode.distance = 0;
-    let openList = [startNode];
-    let closedList = [];
+function bestFirstSearch(grid, startNode, finishNode) {
+    let visitedNodesInOrder = [];
+    startNode.isVisited = true;
+    let queue = [startNode];
 
-    while (openList.length > 0) {
-        let currentNode = getNodeWithMinDist(openList);
+    while (queue.length > 0) {
+        let currentNode = getNodeWithMinDist(queue);
+        queue = queue.filter(x => x !== currentNode);
+
         currentNode.isVisited = true;
+        visitedNodesInOrder.push(currentNode);
 
-        closedList.push(currentNode);
+        if (currentNode === finishNode) return visitedNodesInOrder;
 
-        if (currentNode.row === finishNode.row && currentNode.col === finishNode.col) {
-            return closedList;
-        }
-
-        openList = openList.filter(x => x !== currentNode);
-
-        let neighbors = getUnvisitedNeighbors(currentNode, grid);
-
-        for (let n of neighbors) {
-            if (closedList.includes(n) || n.isWall) continue;
-
-            let gScoreBest = false;
-            let gScore = currentNode.g;
-            gScore += n.isWeight ? 10 : 1;
-
-            if (!openList.includes(n)) {
-                gScoreBest = true;
-                n.h = getHeuristicDistance(n, finishNode);
-                openList.push(n);
-            } else if (gScore < n.g) {
-                gScoreBest = true;
-            }
-
-            if (gScoreBest) {
-                n.previousNode = currentNode;
-                n.g = gScore;
-                n.f = n.g + n.h;
-            }
-        }
+        updateUnvisitedNeighbors(currentNode, finishNode, grid, queue);
     }
     return [];
+}
 
+function updateUnvisitedNeighbors(node, finishNode, grid, queue) {
+    for (let n of getUnvisitedNeighbors(node, grid)) {
+        if (n.isWall) continue;
+
+        if (n.isWeight) {
+            n.f += 10;
+        } else {
+            n.f += 1;
+        }
+        n.isVisited = true;
+        n.previousNode = node;
+        n.f += getHeuristicDistance(n, finishNode);
+        queue.push(n);
+    }
+}
+
+// Manhattam distance
+function getHeuristicDistance(startNode, finishNode) {
+    let d1 = Math.abs(finishNode.col - startNode.col);
+    let d2 = Math.abs(finishNode.row - startNode.row);
+  
+    return d1 + d2;
 }
 
 function getNodeWithMinDist(nodes) {
@@ -50,6 +48,14 @@ function getNodeWithMinDist(nodes) {
     }
 
     return nodes[lowestIndex];
+}
+
+export const visualizeBestFirstSearch = (grid, start_node_row, start_node_col, finish_node_row, finish_node_col) => {
+    const startNode = grid[start_node_row][start_node_col];
+    const finishNode = grid[finish_node_row][finish_node_col];
+    const visitedNodesInOrder = bestFirstSearch(grid, startNode, finishNode);
+    const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
+    animateBestFirstSearch(visitedNodesInOrder, nodesInShortestPathOrder);
 }
 
 function getUnvisitedNeighbors(node, grid) {
@@ -63,14 +69,6 @@ function getUnvisitedNeighbors(node, grid) {
     return neighbors.filter(n => !n.isVisited);
 }
 
-// Manhattam distance
-function getHeuristicDistance(startNode, finishNode) {
-    let d1 = Math.abs(finishNode.col - startNode.col);
-    let d2 = Math.abs(finishNode.row - startNode.row);
-  
-    return d1 + d2;
-}
-
 function getNodesInShortestPathOrder(finishNode) {
     const nodesInShortestPathOrder = [];
     let currentNode = finishNode;
@@ -81,15 +79,7 @@ function getNodesInShortestPathOrder(finishNode) {
     return nodesInShortestPathOrder;
 }
 
-export const visualizeAStar = (grid, start_node_row, start_node_col, finish_node_row, finish_node_col) => {
-    const startNode = grid[start_node_row][start_node_col];
-    const finishNode = grid[finish_node_row][finish_node_col];
-    const visitedNodesInOrder = aStar(grid, startNode, finishNode);
-    const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-    animateAStar(visitedNodesInOrder, nodesInShortestPathOrder);
-}
-
-const animateAStar = (visitedNodesInOrder, nodesInShortestPathOrder) => {
+const animateBestFirstSearch = (visitedNodesInOrder, nodesInShortestPathOrder) => {
     if (visitedNodesInOrder.length === 0) return;
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
         if (i === visitedNodesInOrder.length) {
