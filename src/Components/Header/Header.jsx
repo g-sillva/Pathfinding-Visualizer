@@ -29,8 +29,8 @@ const Header = ({
     isDropDownOpen: false,
     isDescOpen: false,
     selected: 'NONE',
-    weightedOptions: ['WEIGHTED MAZE'],
-    unweightedOptions: ['NONE', 'WALL MAZE'],
+    weightedOptions: ['RANDOM WEIGHTED MAZE', 'RECURSIVE WEIGHTED DIVISION'],
+    unweightedOptions: ['NONE', 'RECURSIVE DIVISION', 'RANDOM WALL MAZE'],
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ut accusamus itaque quibusdam iure. Repellendus aliquid, voluptas non vero ipsam explicabo.'
   });
 

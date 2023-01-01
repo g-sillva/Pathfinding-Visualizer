@@ -45,6 +45,7 @@
 }
 
 .node-wall {
+    outline-color: #333333;
     animation: .5s node-wall-show ease-in-out forwards;
 }
 

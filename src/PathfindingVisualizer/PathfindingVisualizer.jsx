@@ -10,8 +10,10 @@ import { visualizeAStar } from './Algorithms/weighted/astar';
 import { visualizeBestFirstSearch } from './Algorithms/weighted/best_first_search';
 import { visualizeDepthFirstSearch } from './Algorithms/unweighted/depth_first_search';
 import { visualizeBreadthFirstSearch } from './Algorithms/unweighted/breadth_first_search';
-import { visualizeRandomWallMaze } from './Patterns/random_wall_maze';
-import { visualizeRandomWeightedMaze } from './Patterns/random_weighted_maze';
+
+import { visualizeRandomWallMaze } from './Algorithms/Patterns/random_wall_maze';
+import { visualizeRandomWeightedMaze } from './Algorithms/Patterns/random_weighted_maze';
+import { visualizeRecursiveDivision } from './Algorithms/Patterns/recursive_division_wall_maze';
 
 const PathfindingVisualizer = () => {
     const [grid, setGrid] = useState([]);
@@ -126,10 +128,14 @@ const PathfindingVisualizer = () => {
     }
 
     const handlePatternSelect = (name) => {
-        if (name === 'WALL MAZE') {
+        if (name === 'RANDOM WALL MAZE') {
             setGrid(visualizeRandomWallMaze(grid));
-        } else if (name === 'WEIGHTED MAZE') {
+        } else if (name === 'RANDOM WEIGHTED MAZE') {
             setGrid(visualizeRandomWeightedMaze(grid));
+        } else if (name === 'RECURSIVE DIVISION') {
+            setGrid(visualizeRecursiveDivision(grid, false));
+        } else if (name === 'RECURSIVE WEIGHTED DIVISION') {
+            setGrid(visualizeRecursiveDivision(grid, true));
         }
     }
 
