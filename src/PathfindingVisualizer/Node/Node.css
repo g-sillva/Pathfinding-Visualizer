@@ -1,7 +1,7 @@
 .node {
     width: 25px;
     height: 25px;
-    outline: 1px solid #e2e2e2;
+    outline: 1px solid #dcdcdc;
     margin-top: 1px;
     margin-left: 1px;
     cursor: pointer;
@@ -52,24 +52,25 @@
 @keyframes node-visiting-show {
     0% {
         transform: scale(0.6);
-        background-color: #344a86;
+        background-color: #0D3572;
        }
     
       75% {
         transform: scale(1.2);
-        background-color: #4fccb9;
+        background-color: #0660D9;
       }
     
       100% {
         transform: scale(1);
-        background-color: #03DAC5;
+        outline-color: #058ddc;
+        background-color: #08A5FF;
         
       }
 }
 
 @keyframes node-shortest-show {
     0% {
-        transform: scale(1);
+        transform: scale(.6);
         background-color: #ffff16;
     }
 
@@ -79,7 +80,8 @@
 
     100% {
         transform: scale(1);
-        background-color: #ffff16;
+        outline-color: #8f25c3;
+        background-color: #af0fff;
     }
 }
 
