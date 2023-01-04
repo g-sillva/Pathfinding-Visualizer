@@ -78,7 +78,6 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: relative;
 }
 
 
@@ -91,7 +90,7 @@ header {
 
 .header-action-btn i {
     margin-top: 5px;
-    background: #4FCCB9;
+    background: #af0fff;
     color: white;
     width: 60px;
     height: 60px;

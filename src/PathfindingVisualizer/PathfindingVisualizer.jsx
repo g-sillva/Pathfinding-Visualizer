@@ -204,7 +204,7 @@ const PathfindingVisualizer = () => {
     }
 
     const getInitialGrid = () => {
-        let numRows = Math.floor((window.innerHeight - 225) / 25);
+        let numRows = Math.floor((window.innerHeight) / 25);
         let numCols = Math.floor((window.innerWidth - 75) / 25);
         const grid = []
     
@@ -237,7 +237,7 @@ const PathfindingVisualizer = () => {
 
     return (
         <>
-            <Header 
+            {/* <Header 
                 onMainButtonClick={(algorithm) => handleVisualizationStart(algorithm)}
                 onResetGrid={() => handleResetGrid(grid, 0, 0)}
                 onSelectInsert={(type) => setInsertType(type)}
@@ -247,9 +247,9 @@ const PathfindingVisualizer = () => {
                 isAnimationRunning={isVisualizationRunning}
                 onClickInfo={() => setIsSidebarOpen(!isSidebarOpen)}
                 >
-            </Header>
+            </Header> */}
 
-            {isSidebarOpen && <Sidebar onCloseClick={() => setIsSidebarOpen(false)}></Sidebar>}
+            <Sidebar />
 
             <div className='grid'>
                 {grid.map((row, rowI) => (

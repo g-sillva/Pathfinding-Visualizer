@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Modal from '../Modal/Modal';
 import Dropdown from './Dropdown/Dropdown';
 
 import './Header.css';
@@ -9,7 +10,6 @@ const Header = ({
     onSelectInsert,
     onSelectAlgorithm,
     onSelectPattern,
-    isAnimationRunning,
     onClickClear,
     onClickInfo 
   }) => {
@@ -116,7 +116,9 @@ const Header = ({
       <div className='header-bottom'>
         <div className='header-input-container'>
 
-          <Dropdown
+          <p onClick={() => setAlgorithmDropDown({...algorithmDropDown, isDropDownOpen: !algorithmDropDown.isDropDownOpen})}>ALGORITHM</p>
+          {algorithmDropDown.isDropDownOpen && <Modal/>}
+          {/* <Dropdown
             name='ALGORITHM'
             weightedOptions={algorithmDropDown.weightedOptions}
             unweightedOptions={algorithmDropDown.unweightedOptions}
@@ -128,7 +130,7 @@ const Header = ({
             isDropDownOpen={algorithmDropDown.isDropDownOpen}
             description={algorithmDropDown.description}
             selected={algorithmDropDown.selected}
-          ></Dropdown>
+          ></Dropdown> */}
 
           <Dropdown
             name='PATTERN'
