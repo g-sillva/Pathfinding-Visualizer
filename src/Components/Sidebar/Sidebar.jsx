@@ -29,10 +29,21 @@ const insertDropdownContent = {
   qnt_options: 4
 }
 
+const clearDropdownContent = {
+  name: 'Clear',
+  selected: 'ALL',
+  img_name: 'clear-dropdown-icon.png',
+  generalOptions: ['ALL', 'PATHS', 'WALLS', 'WEIGHTS'],
+  qnt_options: 4
+}
+
 const Sidebar = () => {
   const [algorithmDropdownData, setAlgorithmDropdownData] = useState(algorithmDropdownContent);
   const [patternDropdownData, setPatternDropdownData] = useState(patternDropdownContent);
   const [insertDropdownData, setInsertDropdownData] = useState(insertDropdownContent);
+  const [clearDropdownData, setClearDropdownData] = useState(clearDropdownContent);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleOnSelectAlgoClick = (val) => {
     setAlgorithmDropdownData({...algorithmDropdownData, selected: val})
@@ -46,14 +57,19 @@ const Sidebar = () => {
     setInsertDropdownData({...insertDropdownData, selected: val})
   }
 
+  const handleOnSelectClearClick = (val) => {
+    setClearDropdownData({...clearDropdownData, selected: val})
+  }
+
   return (
-    <div className='sidebar'>
-      <div className='sidebar-header'>
-        <h3>Pathfinding Visualizer</h3>
-        <i className="fa-solid fa-play"></i>
+    <div className={`sidebar ${!isOpen && 'sidebar-close'}`}>
+      {isOpen && <h3>Pathfinding Visualizer</h3>}
+      <i className={`fa-sharp fa-solid fa-angle-${isOpen ? 'left' : 'right'} switch-size-icon`} onClick={() => setIsOpen(!isOpen)}></i>
+      <div className={`sidebar-header ${!isOpen && 'header-small'}`}>
+        <i className="fa-sharp fa-solid fa-play"></i>
       </div>
       <div className='sidebar__dropdowns'>
-        <div className='sidebar-dropdowns-container'>
+        <div className={`sidebar-dropdowns-container ${!isOpen && 'dropdowns-container-small'}`}>
           <Dropdown 
             name={algorithmDropdownData.name}
             selected={algorithmDropdownData.selected}
@@ -62,6 +78,8 @@ const Sidebar = () => {
             unweighted_options={algorithmDropdownData.unweighted_options}
             handleSelectClick={(val) => handleOnSelectAlgoClick(val)}
             qntOptions={algorithmDropdownContent.qnt_options}
+            isExpanded={isOpen}
+            onBtnClick={() => setIsOpen(true)}
           />
           <Dropdown 
             name={patternDropdownData.name}
@@ -71,6 +89,8 @@ const Sidebar = () => {
             unweighted_options={patternDropdownData.unweighted_options}
             handleSelectClick={(val) => handleOnSelectPatternClick(val)}
             qntOptions={patternDropdownContent.qnt_options}
+            isExpanded={isOpen}
+            onBtnClick={() => setIsOpen(true)}
           />
           <Dropdown 
             name={insertDropdownData.name}
@@ -79,12 +99,24 @@ const Sidebar = () => {
             generalOptions={insertDropdownData.generalOptions}
             handleSelectClick={(val) => handleOnSelectInsertClick(val)}
             qntOptions={insertDropdownContent.qnt_options}
+            isExpanded={isOpen}
+            onBtnClick={() => setIsOpen(true)}
+          />
+          <Dropdown 
+            name={clearDropdownData.name}
+            selected={clearDropdownData.selected}
+            img_name={clearDropdownData.img_name}
+            generalOptions={clearDropdownData.generalOptions}
+            handleSelectClick={(val) => handleOnSelectClearClick(val)}
+            qntOptions={clearDropdownData.qnt_options}
+            isExpanded={isOpen}
+            onBtnClick={() => setIsOpen(true)}
           />
         </div>
       </div>
-      <div className='sidebar-footer'>
+      <div className={`sidebar-footer ${!isOpen && 'footer-small'}`}>
         <a href="https://github.com/g-sillva" target="_blank"><i className="fa-brands fa-github"></i></a>
-        <i className="fa-solid fa-moon"></i>
+        {isOpen && <i className="fa-solid fa-moon"></i>}
       </div>
     </div>
   )

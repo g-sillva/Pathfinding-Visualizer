@@ -1,7 +1,7 @@
 .dropdown {
-    width: 100%;
+    width: 90%;
+    margin: 0 auto;
     position: relative;
-    margin-bottom: -5px;
 }
 
 .btn-name {
@@ -11,10 +11,12 @@
 
 .btn-name img {
     width: 30px;
-    margin-right: 10px;
 }
 
 .btn-name h4 {
+    margin-left: 10px;
+    font-weight: normal;
+    white-space: nowrap;
     font-size: 20px;
 }
 
@@ -33,7 +35,7 @@
 }
 
 .dropdown-btn:hover {
-    background-color: #DBFFF6;
+    background-color: #0624cf20;
 }
 
 .dropdown-btn i {
@@ -45,7 +47,6 @@
 }
 
 .dropdown-content {
-    margin-top: 10px;
     position: relative;
     overflow: hidden;
     max-height: 0;
@@ -63,19 +64,21 @@
 
 .dropdown-content ul li {
     border-radius: 10px;
+    margin: 5px 0;
     padding: 10px;
     opacity: .6;
+    white-space: nowrap;
     cursor: pointer;
     transition: all .1s ease-out;
 }
 
 .dropdown-content ul li:hover {
-    background-color: #DBFFF6;
+    background-color: #0624cf20;
     opacity: 1;
 }
 
 .dropdown-content ul .selected {
-    background-color: #DBFFF6;
+    background-color: #0624cf20;
     opacity: 1;
 }
 
@@ -85,9 +88,9 @@
     top: 0;
     height: 0;
     width: 4px;
-    background: #18FAC0;
+    background: var(--color-primary);
     transition: all .2s ease-out;
-    opacity: .3;
+    opacity: .5;
 }
 
 .dropdown .show {

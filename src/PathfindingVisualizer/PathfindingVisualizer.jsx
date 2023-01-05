@@ -204,8 +204,8 @@ const PathfindingVisualizer = () => {
     }
 
     const getInitialGrid = () => {
-        let numRows = Math.floor((window.innerHeight) / 25);
-        let numCols = Math.floor((window.innerWidth - 75) / 25);
+        let numRows = Math.floor((window.innerHeight - 30) / 25);
+        let numCols = Math.floor((window.innerWidth - 120) / 25);
         const grid = []
     
         for (let row = 0; row < numRows; row++) {

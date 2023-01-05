@@ -14,20 +14,42 @@ const abbreviateSelectedLabel = (name) => {
   return result;
 }
 
-const Dropdown = ({ name, selected, img_name, weighted_options, unweighted_options, generalOptions, handleSelectClick, qntOptions}) => {
-  const [isContentOpen, setIsContentOpen] = useState(false);
+const Dropdown = ({ name,
+                    selected,
+                    img_name,
+                    weighted_options,
+                    unweighted_options,
+                    generalOptions,
+                    handleSelectClick,
+                    isExpanded,
+                    onBtnClick}
+                  ) => {
+  const [isContentOpen, setIsContentOpen] = useState(name === 'Algorithm');
+
+  useEffect(() => {
+    setIsContentOpen(false);
+  }, []);
+
+  const handleBtnClick = () => {
+    setIsContentOpen(!isContentOpen);
+    onBtnClick();
+  }
 
   return (
     <div className='dropdown'>
-      <div className='dropdown-btn' onClick={() => setIsContentOpen(!isContentOpen)}>
+      <div className='dropdown-btn' onClick={() => handleBtnClick()}>
         <div className='btn-name'>
           <img src={require('./../../../assets/sidebar/' + img_name)} alt="a" />
-          <h4>{name}</h4>
-          {!isContentOpen && <p className='selected'>{abbreviateSelectedLabel(selected)}</p>}
+          {isExpanded && 
+            <>
+              <h4>{name}</h4>
+              <p className='selected'>{abbreviateSelectedLabel(selected)}</p>
+            </>
+          }
         </div>
-        <i className={`fa-solid fa-angle-${isContentOpen ? "up" : "down"}`}></i>
+        {isExpanded && <i className={`fa-solid fa-angle-${isContentOpen ? "up" : "down"}`}></i>}
       </div>
-      <div className={`dropdown-content ${isContentOpen && 'show'}`}>
+      {isExpanded && <div className={`dropdown-content ${isContentOpen && 'show'}`}>
         <span className={`line ${isContentOpen && 'show'}`}></span>
         {generalOptions ? 
           <div className='dropdown-content-container'>
@@ -62,7 +84,7 @@ const Dropdown = ({ name, selected, img_name, weighted_options, unweighted_optio
               ))}
             </ul>
           </div>}
-      </div>
+      </div>}
     </div>
   )
 }
