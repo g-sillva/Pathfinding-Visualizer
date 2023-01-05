@@ -1,5 +1,5 @@
 .sidebar {
-    width: 320px;
+    width: 300px;
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -21,11 +21,8 @@
     top: 10px;
     cursor: pointer;
     padding: 5px;
-    color: white;
     border-radius: 5px;
     font-size: 12px;
-    background-color: var(--color-primary);
-    opacity: .6;
 }
 
 .sidebar-close {
@@ -51,8 +48,9 @@
 
 .sidebar .startIcon {
     margin: 2rem 0;
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: var(--color-primary);
+    opacity: .87;
     cursor: pointer;
     transition: all .1s ease-out;
 }
@@ -73,7 +71,6 @@
 
 .dropdowns-container-small {
     padding-right: 0;
-    margin-top: 12.5rem !important;
 }
 
 .sidebar-dropdowns-container {

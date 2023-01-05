@@ -1,7 +1,6 @@
 .dropdown {
     width: 98%;
     margin: 0 auto;
-    position: relative;
 }
 
 .btn-name {
@@ -10,14 +9,19 @@
 }
 
 .btn-name img {
-    width: 30px;
+    width: 25px;
+    opacity: .87;
 }
 
 .btn-name h4 {
     margin-left: 10px;
     font-weight: normal;
     white-space: nowrap;
-    font-size: 20px;
+    font-size: 16px;
+}
+
+.btn-name .fa-solid {
+    color: var(--color-primary);
 }
 
 .btn-name .selected {
@@ -31,11 +35,12 @@
     border-radius: 10px ;
     align-items: center;
     justify-content: space-between;
+    transition: all .1s ease-out;
     cursor: pointer;
 }
 
 .dropdown-btn:hover {
-    background-color: #0624cf20;
+    background-color: #ececec;
 }
 
 .dropdown-btn i {
@@ -78,12 +83,12 @@
 }
 
 .dropdown-content ul li:hover {
-    background-color: #0624cf20;
+    background-color: #ececec;
     opacity: 1;
 }
 
 .dropdown-content ul .selected {
-    background-color: #0624cf20;
+    background-color: #ececec;
     opacity: 1;
 }
 

@@ -6,7 +6,7 @@ import './Sidebar.css';
 const algorithmDropdownContent = {
   name: 'Algorithm',
   selected: 'DIJKSTRA\'S',
-  img_name: 'algo-dropdown-icon.png',
+  icon_name: 'fa-minimize',
   weighted_options: ['DIJKSTRA\'S', 'A-STAR (A*)', 'BEST FIRST SEARCH'],
   unweighted_options: ['BREADTH FIRST SEARCH', 'DEPTH FIRST SEARCH'],
   qnt_options: 5
@@ -15,7 +15,7 @@ const algorithmDropdownContent = {
 const patternDropdownContent = {
   name: 'Pattern',
   selected: 'NONE',
-  img_name: 'pattern-dropdown-icon.png',
+  icon_name: 'fa-shekel-sign',
   weighted_options: ['RECURSIVE WEIGHTED DIVISION', 'RANDOM WEIGHTED'],
   unweighted_options: ['NONE', 'RECURSIVE DIVISION', 'RANDOM WALL'],
   qnt_options: 6
@@ -24,7 +24,7 @@ const patternDropdownContent = {
 const insertDropdownContent = {
   name: 'Insert on Click',
   selected: 'WALL',
-  img_name: 'insert-dropdown-icon.png',
+  icon_name: 'fa-arrow-pointer',
   generalOptions: ['WALL', 'WEIGHT', 'START', 'FINISH'],
   qnt_options: 4
 }
@@ -32,7 +32,7 @@ const insertDropdownContent = {
 const clearDropdownContent = {
   name: 'Clear',
   selected: '',
-  img_name: 'clear-dropdown-icon.png',
+  icon_name: 'fa-trash-can',
   generalOptions: ['ALL', 'WALLS', 'WEIGHTS'],
   qnt_options: 4
 }
@@ -67,6 +67,7 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
   const handleClearClick = (val) => {
     handleInsertClick('WALL');
     onSelectClear(val);
+    setPatternDropdownData({...patternDropdownContent, selected: 'NONE'})
     setIsStarted(false);
   }
 
@@ -102,7 +103,7 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
           <Dropdown 
             name={algorithmDropdownData.name}
             selected={algorithmDropdownData.selected}
-            img_name={algorithmDropdownData.img_name}
+            icon_name={algorithmDropdownData.icon_name}
             weighted_options={algorithmDropdownData.weighted_options}
             unweighted_options={algorithmDropdownData.unweighted_options}
             handleSelectClick={(val) => handleOnSelectAlgoClick(val)}
@@ -113,7 +114,7 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
           <Dropdown 
             name={patternDropdownData.name}
             selected={patternDropdownData.selected}
-            img_name={patternDropdownData.img_name}
+            icon_name={patternDropdownData.icon_name}
             weighted_options={patternDropdownData.weighted_options}
             unweighted_options={patternDropdownData.unweighted_options}
             handleSelectClick={(val) => handleOnSelectPatternClick(val)}
@@ -124,7 +125,7 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
           <Dropdown 
             name={insertDropdownData.name}
             selected={insertDropdownData.selected}
-            img_name={insertDropdownData.img_name}
+            icon_name={insertDropdownData.icon_name}
             generalOptions={insertDropdownData.generalOptions}
             handleSelectClick={(val) => handleInsertClick(val)}
             qntOptions={insertDropdownContent.qnt_options}
@@ -135,7 +136,7 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
           <Dropdown 
             name={clearDropdownData.name}
             selected={clearDropdownData.selected}
-            img_name={clearDropdownData.img_name}
+            icon_name={clearDropdownData.icon_name}
             generalOptions={clearDropdownData.generalOptions}
             handleSelectClick={(val) => handleClearClick(val)}
             qntOptions={clearDropdownData.qnt_options}

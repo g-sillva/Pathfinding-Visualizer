@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import Node from './Node/Node';
-import Header from './../Components/Header/Header';
 import Sidebar from './../Components/Sidebar/Sidebar';
 
 import './PathfindingVisualizer.css';

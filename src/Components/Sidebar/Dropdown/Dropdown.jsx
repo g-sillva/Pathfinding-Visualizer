@@ -16,7 +16,7 @@ const abbreviateSelectedLabel = (name) => {
 
 const Dropdown = ({ name,
                     selected,
-                    img_name,
+                    icon_name,
                     weighted_options,
                     unweighted_options,
                     generalOptions,
@@ -41,7 +41,7 @@ const Dropdown = ({ name,
     <div className='dropdown'>
       <div className='dropdown-btn' onClick={() => handleBtnClick()}>
         <div className='btn-name'>
-          <img src={require('./../../../assets/sidebar/' + img_name)} alt="a" />
+          <i className={`fa-solid ${icon_name}`}></i>
           {isExpanded && 
             <>
               <h4>{name}</h4>
