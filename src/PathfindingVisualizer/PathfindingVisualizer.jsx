@@ -106,6 +106,11 @@ const PathfindingVisualizer = () => {
     }
 
     const handleVisualizationStart = (algorithm) => {
+        if (isVisualizationRunning) {
+            handleClearGridPaths(grid);
+            setIsVisualizationRunning(false);
+            return;
+        }
         setIsVisualizationRunning(true);
         if (algorithm === 'DIJKSTRA\'S') {
             visualizeDijkastra(grid, startNodePos.row, startNodePos.col, finishNodePos.row, finishNodePos.col);
@@ -122,9 +127,9 @@ const PathfindingVisualizer = () => {
 
     const handlePatternSelect = (name) => {
         handleClearClick('ALL');
-        if (name === 'RANDOM WALL MAZE') {
+        if (name === 'RANDOM WALL') {
             setGrid(visualizeRandomWallMaze(grid));
-        } else if (name === 'RANDOM WEIGHTED MAZE') {
+        } else if (name === 'RANDOM WEIGHTED') {
             setGrid(visualizeRandomWeightedMaze(grid));
         } else if (name === 'RECURSIVE DIVISION') {
             setGrid(visualizeRecursiveDivision(grid, false));
@@ -206,6 +211,20 @@ const PathfindingVisualizer = () => {
         clearAnimations();
     }
 
+    const handleClearGridPaths = (grid) => {
+        const domGrid = document.getElementsByClassName("grid")[0].childNodes;
+        for (let row = 0; row < grid.length; row++) {
+            for (let col = 0; col < grid[row].length; col++) {
+                let domNode = domGrid[row].childNodes[col];
+                domNode.classList.remove('node-visited');
+                domNode.classList.remove('node-shortest-path');
+            }
+        }
+        setGrid(getInitialGrid());
+        setIsVisualizationRunning(false);
+        clearAnimations();
+    }
+
     const clearAnimations = () => {
         let lastTimeoutId = setTimeout(';');
         for (let i = 0; i < lastTimeoutId; i++) {
@@ -247,24 +266,14 @@ const PathfindingVisualizer = () => {
 
     return (
         <>
-            {/* <Header 
-                onMainButtonClick={(algorithm) => handleVisualizationStart(algorithm)}
-                onResetGrid={() => handleResetGrid(grid, 0, 0)}
-                onSelectInsert={(type) => setInsertType(type)}
-                onClickClear={() => handleClearGrid(grid)}
-                onSelectAlgorithm={(unweightedList, name) => handleAlgorithmSelect(grid, unweightedList, name)}
-                onSelectPattern={(name) => handlePatternSelect(name)}
-                isAnimationRunning={isVisualizationRunning}
-                onClickInfo={() => setIsSidebarOpen(!isSidebarOpen)}
-                >
-            </Header> */}
 
             <Sidebar 
                 onStartClick={(algo) => handleVisualizationStart(algo)}
                 onSelectPattern={(name) => handlePatternSelect(name)}
                 onSelectClear={(name) => handleClearClick(name)}
                 onSelectInsert={(name) => handleSelectClick(name)}
-                grid={grid}/>
+                grid={grid}
+                isAnimationRunning={isVisualizationRunning}/>
 
             <div className='grid'>
                 {grid.map((row, rowI) => (

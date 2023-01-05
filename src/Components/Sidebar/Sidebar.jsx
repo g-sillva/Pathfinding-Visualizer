@@ -37,7 +37,7 @@ const clearDropdownContent = {
   qnt_options: 4
 }
 
-const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert, grid }) => {
+const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert, grid, isAnimationRunning }) => {
   const [algorithmDropdownData, setAlgorithmDropdownData] = useState(algorithmDropdownContent);
   const [patternDropdownData, setPatternDropdownData] = useState(patternDropdownContent);
   const [insertDropdownData, setInsertDropdownData] = useState(insertDropdownContent);
@@ -52,6 +52,7 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
   }
 
   const handleOnSelectPatternClick = (val) => {
+    if (isAnimationRunning) return;
     setPatternDropdownData({...patternDropdownData, selected: val});
     onSelectPattern(val);
     setIsOpen(false);
