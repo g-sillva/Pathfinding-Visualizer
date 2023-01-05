@@ -25,48 +25,76 @@ const insertDropdownContent = {
   name: 'Insert on Click',
   selected: 'WALL',
   img_name: 'insert-dropdown-icon.png',
-  generalOptions: ['WALL', 'WEIGTH', 'INSERT', 'FINISH'],
+  generalOptions: ['WALL', 'WEIGHT', 'START', 'FINISH'],
   qnt_options: 4
 }
 
 const clearDropdownContent = {
   name: 'Clear',
-  selected: 'ALL',
+  selected: '',
   img_name: 'clear-dropdown-icon.png',
-  generalOptions: ['ALL', 'PATHS', 'WALLS', 'WEIGHTS'],
+  generalOptions: ['ALL', 'WALLS', 'WEIGHTS'],
   qnt_options: 4
 }
 
-const Sidebar = () => {
+const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert, grid }) => {
   const [algorithmDropdownData, setAlgorithmDropdownData] = useState(algorithmDropdownContent);
   const [patternDropdownData, setPatternDropdownData] = useState(patternDropdownContent);
   const [insertDropdownData, setInsertDropdownData] = useState(insertDropdownContent);
   const [clearDropdownData, setClearDropdownData] = useState(clearDropdownContent);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const [isStarted, setIsStarted] = useState(false); 
 
   const handleOnSelectAlgoClick = (val) => {
-    setAlgorithmDropdownData({...algorithmDropdownData, selected: val})
+    setAlgorithmDropdownData({...algorithmDropdownData, selected: val});
+    handleWeightedAndUnweightedConflic(val);
   }
 
   const handleOnSelectPatternClick = (val) => {
-    setPatternDropdownData({...patternDropdownData, selected: val})
+    setPatternDropdownData({...patternDropdownData, selected: val});
+    onSelectPattern(val);
+    setIsOpen(false);
   }
 
-  const handleOnSelectInsertClick = (val) => {
+  const handleStartClick = () => {
+    onStartClick(algorithmDropdownData.selected);
+    setIsStarted(!isStarted);
+    setIsOpen(false);
+  }
+
+  const handleClearClick = (val) => {
+    handleInsertClick('WALL');
+    onSelectClear(val);
+    setIsStarted(false);
+  }
+
+  const handleInsertClick = (val) => {
     setInsertDropdownData({...insertDropdownData, selected: val})
+    onSelectInsert(val);
   }
 
-  const handleOnSelectClearClick = (val) => {
-    setClearDropdownData({...clearDropdownData, selected: val})
+  const handleWeightedAndUnweightedConflic = (val) => {
+    if (gridContainsWeight(grid) && algorithmDropdownData.unweighted_options.includes(val)) {
+          handleClearClick("ALL");
+        } 
   }
+
+  const gridContainsWeight = (grid) => {
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[row].length; col++) {
+            if (grid[row][col].isWeight) return true;
+        }
+    }
+    return false;
+}
 
   return (
     <div className={`sidebar ${!isOpen && 'sidebar-close'}`}>
+      <i className="fa-solid fa-left-right" onClick={() => setIsOpen(!isOpen)}></i>
       {isOpen && <h3>Pathfinding Visualizer</h3>}
-      <i className={`fa-sharp fa-solid fa-angle-${isOpen ? 'left' : 'right'} switch-size-icon`} onClick={() => setIsOpen(!isOpen)}></i>
       <div className={`sidebar-header ${!isOpen && 'header-small'}`}>
-        <i className="fa-sharp fa-solid fa-play"></i>
+        <i className={`fa-solid ${isStarted ? 'fa-rotate-left' : 'fa-play'} startIcon`} onClick={() => handleStartClick()}></i>
       </div>
       <div className='sidebar__dropdowns'>
         <div className={`sidebar-dropdowns-container ${!isOpen && 'dropdowns-container-small'}`}>
@@ -97,17 +125,18 @@ const Sidebar = () => {
             selected={insertDropdownData.selected}
             img_name={insertDropdownData.img_name}
             generalOptions={insertDropdownData.generalOptions}
-            handleSelectClick={(val) => handleOnSelectInsertClick(val)}
+            handleSelectClick={(val) => handleInsertClick(val)}
             qntOptions={insertDropdownContent.qnt_options}
             isExpanded={isOpen}
             onBtnClick={() => setIsOpen(true)}
+            deactivateItem={algorithmDropdownData.unweighted_options.includes(algorithmDropdownData.selected)}
           />
           <Dropdown 
             name={clearDropdownData.name}
             selected={clearDropdownData.selected}
             img_name={clearDropdownData.img_name}
             generalOptions={clearDropdownData.generalOptions}
-            handleSelectClick={(val) => handleOnSelectClearClick(val)}
+            handleSelectClick={(val) => handleClearClick(val)}
             qntOptions={clearDropdownData.qnt_options}
             isExpanded={isOpen}
             onBtnClick={() => setIsOpen(true)}

@@ -18,7 +18,6 @@ import { visualizeRecursiveDivision } from './Algorithms/Patterns/recursive_divi
 const PathfindingVisualizer = () => {
     const [grid, setGrid] = useState([]);
     const [isVisualizationRunning, setIsVisualizationRunning] = useState(false);
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [mouseIsPressed, setMouseIsPressed] = useState(false);
 
     const [startNodePos, setStartNodePos] = useState({});
@@ -108,7 +107,7 @@ const PathfindingVisualizer = () => {
 
     const handleVisualizationStart = (algorithm) => {
         setIsVisualizationRunning(true);
-        if (algorithm === 'DIJKSTRA') {
+        if (algorithm === 'DIJKSTRA\'S') {
             visualizeDijkastra(grid, startNodePos.row, startNodePos.col, finishNodePos.row, finishNodePos.col);
         } else if (algorithm === 'A-STAR (A*)') {
             visualizeAStar(grid, startNodePos.row, startNodePos.col, finishNodePos.row, finishNodePos.col);
@@ -121,13 +120,8 @@ const PathfindingVisualizer = () => {
         }
     }
 
-    const handleAlgorithmSelect = (grid, unweightedList, name) => {
-        if (unweightedList.includes(name) && gridContainsWeight(grid)) {
-            handleClearGrid(grid)
-        }
-    }
-
     const handlePatternSelect = (name) => {
+        handleClearClick('ALL');
         if (name === 'RANDOM WALL MAZE') {
             setGrid(visualizeRandomWallMaze(grid));
         } else if (name === 'RANDOM WEIGHTED MAZE') {
@@ -139,11 +133,29 @@ const PathfindingVisualizer = () => {
         }
     }
 
-    const handleClearGrid = (grid) => {
+    const handleClearClick = (name) => {
+        if (name === 'ALL') {
+            handleFullClearGrid(grid);
+        } else if (name === 'WALLS') {
+            handleClearGridWalls(grid);
+        } else if (name === 'WEIGHTS') {
+            handleClearGridWeights(grid);
+        }
+    }
+
+    const handleSelectClick = (name) => {
+        setInsertType(name);
+    }
+
+    const handleFullClearGrid = (grid) => {
         const domGrid = document.getElementsByClassName("grid")[0].childNodes;
         for (let row = 0; row < grid.length; row++) {
             for (let col = 0; col < grid[row].length; col++) {
-                removeAllNodeClasses(domGrid, row, col);
+                let domNode = domGrid[row].childNodes[col];
+                domNode.classList.remove('node-visited');
+                domNode.classList.remove('node-shortest-path');
+                domNode.classList.remove('node-wall');
+                domNode.classList.remove('node-weight');
 
                 if (grid[row][col]) {
                     grid[row][col].isWall = false;
@@ -156,21 +168,37 @@ const PathfindingVisualizer = () => {
         clearAnimations();
     }
 
-    const gridContainsWeight = (grid) => {
+    const handleClearGridWalls = (grid) => {
+        const domGrid = document.getElementsByClassName("grid")[0].childNodes;
         for (let row = 0; row < grid.length; row++) {
             for (let col = 0; col < grid[row].length; col++) {
-                if (grid[row][col].isWeight) return true;
+                let domNode = domGrid[row].childNodes[col];
+                domNode.classList.remove('node-wall');
+                domNode.classList.remove('node-visited');
+                domNode.classList.remove('node-shortest-path');
+
+                if (grid[row][col]) {
+                    grid[row][col].isWall = false;
+                }
             }
         }
-        return false;
+        setGrid(getInitialGrid());
+        setIsVisualizationRunning(false);
+        clearAnimations();
     }
 
-    const handleResetGrid = (grid) => {
+    const handleClearGridWeights = (grid) => {
         const domGrid = document.getElementsByClassName("grid")[0].childNodes;
-
         for (let row = 0; row < grid.length; row++) {
             for (let col = 0; col < grid[row].length; col++) {
-                removeNodeClass(domGrid, row, col);
+                let domNode = domGrid[row].childNodes[col];
+                domNode.classList.remove('node-weight');
+                domNode.classList.remove('node-visited');
+                domNode.classList.remove('node-shortest-path');
+
+                if (grid[row][col]) {
+                    grid[row][col].isWeight = false;
+                }
             }
         }
         setGrid(getInitialGrid());
@@ -185,27 +213,9 @@ const PathfindingVisualizer = () => {
         }
     }
 
-    const removeNodeClass = (domGrid, row, col) => {    
-        let domNode = domGrid[row].childNodes[col];
-        if (domNode) {
-            domNode.classList.remove('node-visited');
-            domNode.classList.remove('node-shortest-path');
-        }
-    }
-
-    const removeAllNodeClasses = (domGrid, row, col) => {
-        let domNode = domGrid[row].childNodes[col];
-        if (domNode) {
-            domNode.classList.remove('node-visited');
-            domNode.classList.remove('node-shortest-path');
-            domNode.classList.remove('node-wall');
-            domNode.classList.remove('node-weight');
-        }
-    }
-
     const getInitialGrid = () => {
         let numRows = Math.floor((window.innerHeight - 30) / 25);
-        let numCols = Math.floor((window.innerWidth - 120) / 25);
+        let numCols = Math.floor((window.innerWidth - 150) / 25);
         const grid = []
     
         for (let row = 0; row < numRows; row++) {
@@ -249,7 +259,12 @@ const PathfindingVisualizer = () => {
                 >
             </Header> */}
 
-            <Sidebar />
+            <Sidebar 
+                onStartClick={(algo) => handleVisualizationStart(algo)}
+                onSelectPattern={(name) => handlePatternSelect(name)}
+                onSelectClear={(name) => handleClearClick(name)}
+                onSelectInsert={(name) => handleSelectClick(name)}
+                grid={grid}/>
 
             <div className='grid'>
                 {grid.map((row, rowI) => (

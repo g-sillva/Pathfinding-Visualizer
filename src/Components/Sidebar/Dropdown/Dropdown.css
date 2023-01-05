@@ -1,5 +1,5 @@
 .dropdown {
-    width: 90%;
+    width: 98%;
     margin: 0 auto;
     position: relative;
 }
@@ -46,6 +46,10 @@
     margin-left: 3rem;
 }
 
+.dropdown-content-container .deactivated-item {
+    opacity: .2;
+}
+
 .dropdown-content {
     position: relative;
     overflow: hidden;
@@ -68,6 +72,7 @@
     padding: 10px;
     opacity: .6;
     white-space: nowrap;
+    font-size: 14px;
     cursor: pointer;
     transition: all .1s ease-out;
 }

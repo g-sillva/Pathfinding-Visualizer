@@ -22,17 +22,19 @@ const Dropdown = ({ name,
                     generalOptions,
                     handleSelectClick,
                     isExpanded,
-                    onBtnClick}
+                    onBtnClick,
+                    deactivateItem}
                   ) => {
   const [isContentOpen, setIsContentOpen] = useState(name === 'Algorithm');
-
-  useEffect(() => {
-    setIsContentOpen(false);
-  }, []);
 
   const handleBtnClick = () => {
     setIsContentOpen(!isContentOpen);
     onBtnClick();
+  }
+
+  const handleItemSelect = (val) => {
+    if (deactivateItem && val === 'WEIGHT') return;
+    handleSelectClick(val); 
   }
 
   return (
@@ -56,9 +58,9 @@ const Dropdown = ({ name,
             <ul>
               {generalOptions.map((x, i) => (
                 <li 
-                  className={selected === x ? 'selected' : ''}
+                  className={(selected === x ? 'selected' : '') + (deactivateItem && x == 'WEIGHT' ? 'deactivated-item' : '')}
                   key={i}
-                  onClick={() => {handleSelectClick(x); setIsContentOpen(false)}}
+                  onClick={() => handleItemSelect(x)}
                   >{x}</li>
               ))}
             </ul>
@@ -71,7 +73,7 @@ const Dropdown = ({ name,
                 <li 
                   className={selected === x ? 'selected' : ''}
                   key={i}
-                  onClick={() => {handleSelectClick(x); setIsContentOpen(false)}}>{x}</li>
+                  onClick={() => handleItemSelect(x)}>{x}</li>
               ))}
             </ul>
             <p>Unweighted</p>
@@ -80,7 +82,7 @@ const Dropdown = ({ name,
                 <li 
                   className={selected === x ? 'selected' : ''} 
                   key={i}
-                  onClick={() => {handleSelectClick(x); setIsContentOpen(false)}}>{x}</li>
+                  onClick={() => handleItemSelect(x)}>{x}</li>
               ))}
             </ul>
           </div>}
