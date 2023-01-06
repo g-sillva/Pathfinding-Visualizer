@@ -44,6 +44,7 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
   const [clearDropdownData, setClearDropdownData] = useState(clearDropdownContent);
 
   const [isOpen, setIsOpen] = useState(true);
+  const [expandedDropdown, setExpandedDropdown] = useState(0);
   const [isStarted, setIsStarted] = useState(false); 
 
   const handleOnSelectAlgoClick = (val) => {
@@ -82,6 +83,13 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
         } 
   }
 
+  const handleDropdownExpandClick = (name) => {
+    if (name === 'Algorithm') setExpandedDropdown(0);
+    else if (name === 'Pattern') setExpandedDropdown(1);
+    else if (name === 'Insert on Click') setExpandedDropdown(2);
+    else if (name === 'Clear') setExpandedDropdown(3);
+  }
+
   const gridContainsWeight = (grid) => {
     for (let row = 0; row < grid.length; row++) {
         for (let col = 0; col < grid[row].length; col++) {
@@ -93,10 +101,11 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
 
   return (
     <div className={`sidebar ${!isOpen && 'sidebar-close'}`}>
-      <i className="fa-solid fa-left-right" onClick={() => setIsOpen(!isOpen)}></i>
       {isOpen && <h3>Pathfinding Visualizer</h3>}
       <div className={`sidebar-header ${!isOpen && 'header-small'}`}>
         <i className={`fa-solid ${isStarted ? 'fa-rotate-left' : 'fa-play'} startIcon`} onClick={() => handleStartClick()}></i>
+        <i className={`fa-solid ${isOpen ? 'fa-angles-left' : 'fa-angles-right'} expand-icon`} onClick={() => setIsOpen(!isOpen)}></i>
+
       </div>
       <div className='sidebar__dropdowns'>
         <div className={`sidebar-dropdowns-container ${!isOpen && 'dropdowns-container-small'}`}>
@@ -108,8 +117,9 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
             unweighted_options={algorithmDropdownData.unweighted_options}
             handleSelectClick={(val) => handleOnSelectAlgoClick(val)}
             qntOptions={algorithmDropdownContent.qnt_options}
-            isExpanded={isOpen}
-            onBtnClick={() => setIsOpen(true)}
+            isSidebarExpanded={isOpen}
+            isDropdownExpanded={expandedDropdown === 0}
+            onBtnClick={() => handleDropdownExpandClick(algorithmDropdownData.name)}
           />
           <Dropdown 
             name={patternDropdownData.name}
@@ -119,8 +129,9 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
             unweighted_options={patternDropdownData.unweighted_options}
             handleSelectClick={(val) => handleOnSelectPatternClick(val)}
             qntOptions={patternDropdownContent.qnt_options}
-            isExpanded={isOpen}
-            onBtnClick={() => setIsOpen(true)}
+            isSidebarExpanded={isOpen}
+            isDropdownExpanded={expandedDropdown === 1}
+            onBtnClick={() => handleDropdownExpandClick(patternDropdownData.name)}
           />
           <Dropdown 
             name={insertDropdownData.name}
@@ -129,8 +140,9 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
             generalOptions={insertDropdownData.generalOptions}
             handleSelectClick={(val) => handleInsertClick(val)}
             qntOptions={insertDropdownContent.qnt_options}
-            isExpanded={isOpen}
-            onBtnClick={() => setIsOpen(true)}
+            isSidebarExpanded={isOpen}
+            isDropdownExpanded={expandedDropdown === 2}
+            onBtnClick={() => handleDropdownExpandClick(insertDropdownData.name)}
             deactivateItem={algorithmDropdownData.unweighted_options.includes(algorithmDropdownData.selected)}
           />
           <Dropdown 
@@ -140,8 +152,9 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
             generalOptions={clearDropdownData.generalOptions}
             handleSelectClick={(val) => handleClearClick(val)}
             qntOptions={clearDropdownData.qnt_options}
-            isExpanded={isOpen}
-            onBtnClick={() => setIsOpen(true)}
+            isSidebarExpanded={isOpen}
+            isDropdownExpanded={expandedDropdown === 3}
+            onBtnClick={() => handleDropdownExpandClick(clearDropdownData.name)}
           />
         </div>
       </div>

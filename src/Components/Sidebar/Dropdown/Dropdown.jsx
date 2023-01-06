@@ -21,16 +21,11 @@ const Dropdown = ({ name,
                     unweighted_options,
                     generalOptions,
                     handleSelectClick,
-                    isExpanded,
+                    isSidebarExpanded,
+                    isDropdownExpanded,
                     onBtnClick,
                     deactivateItem}
                   ) => {
-  const [isContentOpen, setIsContentOpen] = useState(name === 'Algorithm');
-
-  const handleBtnClick = () => {
-    setIsContentOpen(!isContentOpen);
-    onBtnClick();
-  }
 
   const handleItemSelect = (val) => {
     if (deactivateItem && val === 'WEIGHT') return;
@@ -39,20 +34,20 @@ const Dropdown = ({ name,
 
   return (
     <div className='dropdown'>
-      <div className='dropdown-btn' onClick={() => handleBtnClick()}>
+      <div className='dropdown-btn' onClick={() => onBtnClick()}>
         <div className='btn-name'>
           <i className={`fa-solid ${icon_name}`}></i>
-          {isExpanded && 
+          {isSidebarExpanded && 
             <>
               <h4>{name}</h4>
               <p className='selected'>{abbreviateSelectedLabel(selected)}</p>
             </>
           }
         </div>
-        {isExpanded && <i className={`fa-solid fa-angle-${isContentOpen ? "up" : "down"}`}></i>}
+        {isSidebarExpanded && <i className={`fa-solid fa-angle-${isDropdownExpanded ? "up" : "down"}`}></i>}
       </div>
-      {isExpanded && <div className={`dropdown-content ${isContentOpen && 'show'}`}>
-        <span className={`line ${isContentOpen && 'show'}`}></span>
+      {isSidebarExpanded && <div className={`dropdown-content ${isDropdownExpanded && 'show'}`}>
+        <span className={`line ${isDropdownExpanded && 'show'}`}></span>
         {generalOptions ? 
           <div className='dropdown-content-container'>
             <ul>
