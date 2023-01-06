@@ -56,6 +56,7 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
     if (isAnimationRunning) return;
     setPatternDropdownData({...patternDropdownData, selected: val});
     onSelectPattern(val);
+    handleWeightedAndUnweightedConflic(algorithmDropdownData.selected);
     setIsOpen(false);
   }
 
@@ -84,6 +85,7 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
   }
 
   const handleDropdownExpandClick = (name) => {
+    setIsOpen(true);
     if (name === 'Algorithm') setExpandedDropdown(0);
     else if (name === 'Pattern') setExpandedDropdown(1);
     else if (name === 'Insert on Click') setExpandedDropdown(2);
@@ -158,9 +160,8 @@ const Sidebar = ({ onStartClick, onSelectPattern, onSelectClear, onSelectInsert,
           />
         </div>
       </div>
-      <div className={`sidebar-footer ${!isOpen && 'footer-small'}`}>
+      <div className='sidebar-footer'>
         <a href="https://github.com/g-sillva" target="_blank"><i className="fa-brands fa-github"></i></a>
-        {isOpen && <i className="fa-solid fa-moon"></i>}
       </div>
     </div>
   )
